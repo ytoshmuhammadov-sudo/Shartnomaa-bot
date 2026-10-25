@@ -1,4 +1,5 @@
 import os
+import base64
 import asyncio
 import logging
 import requests
@@ -11,25 +12,32 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, FSInputFile
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from openai import OpenAI
+from google import genai
 
 # Environment o'zgaruvchilaridan tokenlarni olish
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+# Google Flow ochiq API bermaydi, shuning uchun uning video modeli Gemini API orqali chaqiriladi
+VIDEO_MODEL = os.getenv("VIDEO_MODEL", "gemini-omni-1.1-flash")
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(storage=MemoryStorage())
 client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+gemini_client = genai.Client(api_key=GEMINI_API_KEY) if GEMINI_API_KEY else None
 
 class Form(StatesGroup):
     xodim_info = State()
     loyixa_info = State()
     oylik_info = State()
     kpi_info = State()
+    video_prompt = State()
 
 main_kb = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text="📝 Xodim Shartnomasi"), KeyboardButton(text="🤝 Hamkor Shartnomasi")],
-        [KeyboardButton(text="🏢 Kompaniya Rekvizitlari"), KeyboardButton(text="ℹ️ Yordam")]
+        [KeyboardButton(text="🏢 Kompaniya Rekvizitlari"), KeyboardButton(text="ℹ️ Yordam")],
+        [KeyboardButton(text="🎬 Video yaratish")]
     ],
     resize_keyboard=True
 )
@@ -118,6 +126,44 @@ async def process_kpi(message: types.Message, state: FSMContext):
     if os.path.exists(pdf_filename):
         os.remove(pdf_filename)
     await state.clear()
+
+@dp.message(F.text == "🎬 Video yaratish")
+async def start_video(message: types.Message, state: FSMContext):
+    if not gemini_client:
+        await message.answer("Video yaratish uchun GEMINI_API_KEY kiritilmagan.")
+        return
+    await state.set_state(Form.video_prompt)
+    await message.answer("Qanday video kerak? Tasvirlab yozing yoki ovozli xabar yuboring:")
+
+@dp.message(Form.video_prompt)
+async def process_video(message: types.Message, state: FSMContext):
+    prompt = await get_text_from_message(message)
+    if not prompt.strip():
+        await message.answer("Video tavsifini matn yoki ovoz bilan yuboring.")
+        return
+    await state.clear()
+    await message.answer("⏳ Video yaratilmoqda, bu bir necha daqiqa olishi mumkin...")
+
+    video_filename = f"Video_{message.from_user.id}.mp4"
+    try:
+        interaction = await gemini_client.aio.interactions.create(
+            model=VIDEO_MODEL,
+            input=prompt,
+            response_format={"type": "video", "aspect_ratio": "9:16", "resolution": "720p"},
+            timeout=600,
+        )
+        if not interaction.output_video or not interaction.output_video.data:
+            await message.answer("❌ Model video qaytarmadi. Tavsifni o'zgartirib qayta urinib ko'ring.")
+            return
+        with open(video_filename, "wb") as f:
+            f.write(base64.b64decode(interaction.output_video.data))
+        await message.answer_video(FSInputFile(video_filename), caption="✅ Video tayyor!")
+    except Exception as e:
+        logging.exception("Video yaratishda xatolik")
+        await message.answer(f"❌ Video yaratishda xatolik: {e}")
+    finally:
+        if os.path.exists(video_filename):
+            os.remove(video_filename)
 
 async def main():
     logging.basicConfig(level=logging.INFO)
