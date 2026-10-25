@@ -34,10 +34,43 @@ main_kb = ReplyKeyboardMarkup(
     resize_keyboard=True
 )
 
+# Telefon raqamni so'rash tugmasi
+phone_kb = ReplyKeyboardMarkup(
+    keyboard=[[KeyboardButton(text="📱 Telefon raqamni yuborish", request_contact=True)]],
+    resize_keyboard=True,
+    one_time_keyboard=True
+)
+
+# Foydalanuvchilarning telefon raqamlari (user_id -> raqam)
+user_phones = {}
+
 @dp.message(Command("start"))
 async def start_cmd(message: types.Message):
+    if message.from_user.id not in user_phones:
+        await message.answer(
+            "Assalomu alaykum! **BM Akademiyasi** shartnoma yaratish botiga xush kelibsiz.\n\n"
+            "Davom etish uchun pastdagi tugma orqali telefon raqamingizni yuboring:",
+            reply_markup=phone_kb
+        )
+        return
     await message.answer(
         "Assalomu alaykum! **BM Akademiyasi** shartnoma yaratish botiga xush kelibsiz.\n\n"
+        "Tugmalardan birini tanlang. Ovozli xabar (golos) yuborishingiz ham mumkin!",
+        reply_markup=main_kb
+    )
+
+@dp.message(F.contact)
+async def get_contact(message: types.Message):
+    contact = message.contact
+    if contact.user_id != message.from_user.id:
+        await message.answer("Iltimos, o'zingizning telefon raqamingizni yuboring.", reply_markup=phone_kb)
+        return
+    phone = contact.phone_number
+    if not phone.startswith("+"):
+        phone = "+" + phone
+    user_phones[message.from_user.id] = phone
+    await message.answer(
+        f"✅ Telefon raqamingiz qabul qilindi: {phone}\n\n"
         "Tugmalardan birini tanlang. Ovozli xabar (golos) yuborishingiz ham mumkin!",
         reply_markup=main_kb
     )
@@ -67,6 +100,9 @@ async def get_text_from_message(message: types.Message) -> str:
 
 @dp.message(F.text == "📝 Xodim Shartnomasi")
 async def start_form(message: types.Message, state: FSMContext):
+    if message.from_user.id not in user_phones:
+        await message.answer("Avval telefon raqamingizni yuboring:", reply_markup=phone_kb)
+        return
     await state.set_state(Form.xodim_info)
     await message.answer("<b>1-bosqich:</b> Xodimning F.I.Sh., pasport seriyasi, manzili va tel raqamini ayting yoki yozing:", parse_mode="HTML")
 
@@ -109,6 +145,7 @@ async def process_kpi(message: types.Message, state: FSMContext):
     textobject.textLine(f"2. Lavozim va Loyiha: {data.get('loyixa')}")
     textobject.textLine(f"3. Mehnatga haq to'lash: {data.get('oylik')}")
     textobject.textLine(f"4. KPI va Bonuslar: {txt}")
+    textobject.textLine(f"5. Aloqa uchun telefon: {user_phones.get(message.from_user.id, '-')}")
     textobject.textLine("")
     textobject.textLine("Direktor: Bobur Mirzo Yo'ldoshboyev")
     c.drawText(textobject)
