@@ -162,7 +162,7 @@ const Office = (() => {
     const cx = Math.round(W / 2) * T;
     round(cx - 50, 4, 100, 22, 4, "#111"); ctx.fillStyle = "#facc15"; ctx.font = "bold 13px monospace"; ctx.textAlign = "center";
     ctx.fillText(`${hh}:${mm}  ${(info && info.mijoz || "").slice(0, 10).toUpperCase()}`, cx, 20);
-    R(14 * T, 6, 4 * T, 18, "#f8fafc"); R(14 * T, 6, 4 * T, 3, "#94a3b8");
+    R(11 * T, 6, 3 * T, 18, "#f8fafc"); R(11 * T, 6, 3 * T, 3, "#94a3b8");
     R((layout.kitchenX - 3) * T, 6, 2 * T, 20, "#1e293b"); R((layout.kitchenX - 3) * T + 3, 9, 2 * T - 6, 12, "#38bdf8");
 
     // Rahbar kabineti (shisha xona)
