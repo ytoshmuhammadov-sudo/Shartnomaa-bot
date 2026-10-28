@@ -5,6 +5,7 @@ Ishga tushirish:  uvicorn ai_hodimlar.server:app --host 0.0.0.0 --port 8000
 
 import logging
 import os
+import secrets
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
@@ -13,7 +14,7 @@ from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from . import brain, db, knowledge
+from . import brain, db, direktor, knowledge, telegram
 from .catalog import KOMPLEKTLAR, OFIS_HAJMLARI, SHABLONLAR, ofis_hajmi_tanla
 
 logging.basicConfig(level=logging.INFO)
@@ -34,9 +35,14 @@ app = FastAPI(title="AI Hodimlar", dependencies=[Depends(admin)])
 def startup():
     db.init()
     # Server qayta ishga tushganda yarim qolgan vazifalarni navbatga qaytaramiz.
-    for v in db.rows("SELECT id FROM vazifalar WHERE holat IN ('yangi', 'jarayonda')"):
+    for v in db.rows("SELECT id FROM vazifalar WHERE holat IN ('yangi', 'jarayonda') AND topshiriq_id IS NULL"):
         _ishchilar.submit(brain.vazifa_bajar, v["id"])
+    # Direktor topshiriqlari o'rtada uzilgan bo'lsa, qayta boshlamaymiz (guruhga takror xabar ketmasligi uchun).
+    db.run("UPDATE vazifalar SET holat = 'xato', natija = 'Server qayta ishga tushdi' "
+           "WHERE holat IN ('yangi', 'jarayonda') AND topshiriq_id IS NOT NULL")
+    db.run("UPDATE topshiriqlar SET holat = 'uzildi' WHERE holat IN ('yangi', 'jarayonda')")
     db.run("UPDATE hodimlar SET holat = 'bosh'")
+    telegram.ishga_tushir()
     if os.getenv("BILIM_YANGILASH", "1") == "1":
         knowledge.fon_ishga_tushir()
 
@@ -90,12 +96,19 @@ def mijoz_ochir(mid: int):
     return {"ok": True}
 
 
+def _yangi_kod() -> str:
+    return secrets.token_hex(3).upper()
+
+
 def _ofis_yarat(mijoz_id, nom, hodimlar, hajm, dizayn):
     """hodimlar: [{"shablon_id", "qoshimcha_instruksiya"}]. Har biri shablondan mustaqil nusxa."""
     if not db.one("SELECT 1 FROM mijozlar WHERE id = ?", mijoz_id):
         raise HTTPException(404, "Mijoz topilmadi")
-    hajm = hajm or ofis_hajmi_tanla(len(hodimlar))
-    oid = db.run("INSERT INTO ofislar (mijoz_id, nom, hajm, dizayn) VALUES (?, ?, ?, ?)", mijoz_id, nom, hajm, dizayn)
+    # Har ofisda bitta AI Direktor bo'ladi: u rahbar kabinetida o'tiradi va topshiriqlarni taqsimlaydi.
+    hodimlar = [{"shablon_id": "direktor"}] + [h for h in hodimlar if h["shablon_id"] != "direktor"]
+    hajm = hajm or ofis_hajmi_tanla(len(hodimlar) - 1)
+    oid = db.run("INSERT INTO ofislar (mijoz_id, nom, hajm, dizayn, ulash_kodi) VALUES (?, ?, ?, ?, ?)",
+                 mijoz_id, nom, hajm, dizayn, _yangi_kod())
     band = set()
     for h in hodimlar:
         if h["shablon_id"] not in SHABLONLAR:
@@ -123,7 +136,7 @@ def ofis_avto(o: AvtoOfisIn):
     m = db.one("SELECT * FROM mijozlar WHERE id = ?", o.mijoz_id)
     if not m:
         raise HTTPException(404, "Mijoz topilmadi")
-    reja = brain.jamoa_tuz(m["biznes_tavsifi"] or m["nom"], max(1, min(o.soni, 48)))
+    reja = brain.jamoa_tuz(m["biznes_tavsifi"] or m["nom"], max(1, min(o.soni, 47)))
     oid = _ofis_yarat(o.mijoz_id, f"{m['nom']} ofisi", reja["hodimlar"], None, o.dizayn)
     return {"id": oid, "izoh": reja.get("izoh", ""), "hodimlar": reja["hodimlar"]}
 
@@ -139,6 +152,11 @@ def ofis(oid: int):
     o = db.one("SELECT o.*, m.nom AS mijoz FROM ofislar o JOIN mijozlar m ON m.id = o.mijoz_id WHERE o.id = ?", oid)
     if not o:
         raise HTTPException(404, "Ofis topilmadi")
+    if not o["ulash_kodi"]:
+        o["ulash_kodi"] = _yangi_kod()
+        db.run("UPDATE ofislar SET ulash_kodi = ? WHERE id = ?", o["ulash_kodi"], oid)
+    direktor.direktori(oid)
+    o["telegram"] = telegram.holat()
     o["hodimlar"] = db.rows(
         "SELECT h.*, (SELECT COUNT(*) FROM vazifalar v WHERE v.hodim_id = h.id AND v.holat = 'bajarildi') AS bajarilgan "
         "FROM hodimlar h WHERE h.ofis_id = ? ORDER BY h.id", oid)
@@ -229,6 +247,27 @@ def vazifa_ber(hid: int, x: XabarIn):
     vid = db.run("INSERT INTO vazifalar (hodim_id, matn) VALUES (?, ?)", hid, x.matn)
     _ishchilar.submit(brain.vazifa_bajar, vid)
     return {"id": vid}
+
+
+# ---------- Direktor topshiriqlari ----------
+
+@app.post("/api/ofislar/{oid}/topshiriq")
+def topshiriq_ber(oid: int, x: XabarIn):
+    o = db.one("SELECT * FROM ofislar WHERE id = ?", oid)
+    if not o:
+        raise HTTPException(404, "Ofis topilmadi")
+    tid = db.run("INSERT INTO topshiriqlar (ofis_id, matn, chat_id) VALUES (?, ?, ?)", oid, x.matn, o["telegram_chat_id"])
+    _ishchilar.submit(direktor.ishla, tid)
+    return {"id": tid}
+
+
+@app.get("/api/ofislar/{oid}/topshiriqlar")
+def topshiriqlar(oid: int):
+    ts = db.rows("SELECT * FROM topshiriqlar WHERE ofis_id = ? ORDER BY id DESC LIMIT 20", oid)
+    for t in ts:
+        t["vazifalar"] = db.rows("SELECT v.*, h.ism, h.shablon_id FROM vazifalar v JOIN hodimlar h ON h.id = v.hodim_id "
+                                 "WHERE v.topshiriq_id = ? ORDER BY v.id", t["id"])
+    return ts
 
 
 # ---------- Bilim bazasi ----------

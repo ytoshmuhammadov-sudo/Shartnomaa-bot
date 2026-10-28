@@ -18,6 +18,30 @@ Har bir hodim — bazaviy shablon (miya + instruksiya + ko'nikmalar). Mijozga so
 - **O'zbekcha ovoz (golos)**: 🎤 tugmasi — brauzer uz-UZ tanish; bo'lmasa Whisper (uzbek). Javobni ovozda o'qish.
 - **Admin panel** to'liq o'zbek tilida: mijozlar, ofislar, katalog, komplektlar, bilim bazasi.
 
+## Hodimlar qayerda ishlaydi: Telegram guruh + AI Direktor
+
+```
+Biznesmen (Telegram guruhda yozadi yoki 🎤 gapiradi)
+        │
+        ▼
+👔 AI Direktor ── reja tuzadi: kim, nima, qaysi bosqichda
+        │
+        ├─ 1-bosqich (parallel):  📱 SMM   🎯 Target   🔭 Tadqiqotchi
+        ├─ 2-bosqich (1-bosqich natijalarini ko'radi):  ✍️ Kopirayter
+        ▼
+👔 Direktor natijalarni tekshirib, guruhga yakuniy hisobot yozadi
+```
+
+- Har ofisda avtomatik bitta **AI Direktor** bo'ladi (virtual ofisda rahbar kabinetida o'tiradi).
+- Har bir hodimning javobi guruhga uning ismi va lavozimi bilan yoziladi; ofis ko'rinishida esa ular stolida "ishlayapti" bo'lib turadi.
+- `Aziz, ...` deb yozilsa — direktorsiz, to'g'ridan-to'g'ri shu hodim javob beradi.
+- Buyruqlar: `/ulash KOD`, `/jamoa`, `/hisobot`.
+- Admin paneldan ham "🎯 Direktorga topshiriq" berish mumkin; guruh ulangan bo'lsa natijalar guruhga ham boradi.
+
+**Ulash:** BotFather'da bot yarating → `AI_HODIM_BOT_TOKEN` ni serverga qo'shing → biznesmen botni guruhga qo'shib
+**admin qiladi** (yoki BotFather'da `/setprivacy` → Disable) → guruhga admin paneldagi "📲 Telegram" oynasidagi `/ulash KOD` ni yozadi.
+Bitta bot hamma mijozlarga xizmat qiladi; har bir guruh o'z ofisiga ulanadi.
+
 ## Ishga tushirish
 
 ```bash
@@ -25,7 +49,8 @@ pip install -r ai_hodimlar/requirements.txt
 export ANTHROPIC_API_KEY=...     # hodimlar miyasi (Claude). Kalitsiz demo rejimda ishlaydi
 export OPENAI_API_KEY=...        # ixtiyoriy: o'zbekcha ovozni tanish/o'qish (Whisper, TTS)
 export ADMIN_TOKEN=maxfiy-parol  # admin panel paroli (tavsiya etiladi)
-uvicorn ai_hodimlar.server:app --host 0.0.0.0 --port 8000
+export AI_HODIM_BOT_TOKEN=...    # Telegram bot (BotFather). Shartnoma botingizdan alohida bot bo'lsin
+uvicorn ai_hodimlar.server:app --host 0.0.0.0 --port 8000   # faqat 1 worker (Telegram polling uchun)
 ```
 
 Brauzerda `http://localhost:8000` ni oching.
@@ -37,6 +62,7 @@ Brauzerda `http://localhost:8000` ni oching.
 | `BILIM_INTERVAL_SOAT` | `6` | Bilim yangilash oralig'i |
 | `BILIM_YANGILASH` | `1` | `0` — fon yangilashni o'chirish |
 | `VAZIFA_ISHCHILAR` | `4` | Bir vaqtda bajariladigan vazifalar soni |
+| `TELEGRAM_ISHCHILAR` | `8` | Bir vaqtda ishlanadigan Telegram xabarlari |
 | `AI_HODIMLAR_DB` | `ai_hodimlar/ai_hodimlar.db` | SQLite fayli |
 
 Claude so'rovlarida server tomonidagi zaxira model (`fallbacks: "default"`) yoqilgan: model so'rovni rad etsa, API uni avtomatik boshqa modelda qayta bajaradi.
@@ -47,6 +73,8 @@ Claude so'rovlarida server tomonidagi zaxira model (`fallbacks: "default"`) yoqi
 |---|---|
 | `catalog.py` | Hodimlar shablonlari, instruksiyalar, komplektlar, ofis hajmlari |
 | `brain.py` | Claude bilan suhbat, vazifa bajarish, AI HR-direktor, bilim xulosasi |
+| `direktor.py` | AI Direktor: reja, vazifa taqsimlash, bosqichma-bosqich bajarish, hisobot |
+| `telegram.py` | Telegram guruh boti (server ichida long-polling, alohida jarayon shart emas) |
 | `knowledge.py` | 24/7 yangiliklarni o'qib bilim bazasini yangilash |
 | `server.py` | FastAPI: admin API, ovoz, frontend |
 | `static/office.js` | Jonli 2D ofis (canvas) |

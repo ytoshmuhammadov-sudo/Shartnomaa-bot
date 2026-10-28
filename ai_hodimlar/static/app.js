@@ -48,11 +48,43 @@ async function refreshOfis() {
   $("#dizaynTanla").value = ofisData.dizayn; $("#hajmTanla").value = ofisData.hajm;
   const ish = ofisData.hodimlar.filter((h) => h.holat === "ishlayapti").length;
   const sig = Office.capacity(ofisData.hajm);
-  $("#ofisStat").textContent = `${ofisData.hodimlar.length}/${sig} hodim · ${ish} ishlayapti`;
+  $("#ofisStat").textContent = `${ofisData.hodimlar.length}/${sig} hodim · ${ish} ishlayapti · ${ofisData.telegram_chat_id ? "📲 ulangan" : "📲 —"}`;
   $("#hodimRoyxat").innerHTML = ofisData.hodimlar.map((h) =>
     `<span class="chip" data-id="${h.id}"><span class="dot ${h.holat}"></span>${h.emoji} ${esc(h.ism)} <span class="muted">${esc(h.lavozim)}</span></span>`).join("");
   document.querySelectorAll(".chip").forEach((c) => c.onclick = () => openHodim(+c.dataset.id));
+  loadTopshiriqlar();
 }
+async function loadTopshiriqlar() {
+  const ts = await api(`/api/ofislar/${ofisId}/topshiriqlar`);
+  const belgi = { yangi: "⏳ navbatda", jarayonda: "⚙️ jamoa ishlayapti", bajarildi: "✅ bajarildi", xato: "❌ xato", uzildi: "⛔ uzildi" };
+  const vb = { yangi: "⏳", jarayonda: "⚙️", bajarildi: "✅", xato: "❌" };
+  $("#topshiriqlar").innerHTML = ts.map((t) => `<div class="card tsh ${t.holat}"><b>${esc(t.matn)}</b>
+    <div class="small muted">${belgi[t.holat] || t.holat} · ${esc(t.created)}${t.chat_id ? " · 📲 Telegram" : ""}</div>
+    ${t.vazifalar.length ? `<ul>${t.vazifalar.map((v) => `<li>${vb[v.holat] || ""} <b>${esc(v.ism)}</b> (${esc(sh(v.shablon_id).nom)}): ${esc(v.matn)}
+      ${v.natija ? `<details><summary class="small">Natija</summary><pre>${esc(v.natija)}</pre></details>` : ""}</li>`).join("")}</ul>` : ""}
+    ${t.hisobot ? `<details ${t.vazifalar.length ? "" : "open"}><summary>📊 Direktor hisoboti</summary><pre>${esc(t.hisobot)}</pre></details>` : ""}</div>`).join("")
+    || `<div class="muted">Hali topshiriq yo'q. "🎯 Direktorga topshiriq" tugmasini bosing yoki Telegram guruhga yozing.</div>`;
+}
+$("#topshiriqBtn").onclick = () => {
+  if (!ofisId) return alert("Avval ofis yarating");
+  const d = ofisData.hodimlar.find((h) => h.shablon_id === "direktor");
+  dialog(`<h3>🎯 ${esc(d ? d.ism : "Direktor")}ga topshiriq</h3><p class="muted small">Direktor topshiriqni bo'laklarga ajratadi, jamoaga taqsimlaydi va yakuniy hisobot beradi.</p>
+    <textarea name="matn" rows="5" placeholder="Masalan: Yangi yil aksiyasi uchun reklama kampaniyasini tayyorlang"></textarea>
+    <div class="row"><button value="ok">Topshirish</button><button value="" class="danger">Bekor</button></div>`, async (f) => {
+    if (!f.matn.value.trim()) return;
+    await api(`/api/ofislar/${ofisId}/topshiriq`, { method: "POST", body: { matn: f.matn.value } }); refreshOfis();
+  });
+};
+$("#telegramBtn").onclick = () => {
+  const tg = ofisData.telegram, ulangan = !!ofisData.telegram_chat_id;
+  dialog(`<h3>📲 Telegram guruh</h3>
+    ${tg.yoqilgan ? "" : `<p style="color:#f87171">Serverda AI_HODIM_BOT_TOKEN o'rnatilmagan. BotFather'dan bot yarating va tokenni qo'shing.</p>`}
+    <p>Holat: <b>${ulangan ? "✅ guruh ulangan" : "ulanmagan"}</b></p>
+    <ol><li>Biznesmen guruh ochadi va ${tg.bot ? "<b>@" + esc(tg.bot) + "</b>" : "botni"} qo'shib, admin qiladi.</li>
+    <li>Guruhga yozadi: <pre>/ulash ${esc(ofisData.ulash_kodi)}</pre></li>
+    <li>Shundan keyin guruhdagi har bir xabar (matn yoki 🎤 ovoz) direktorga boradi. "Ism, ..." deb yozilsa, shu hodim javob beradi.</li></ol>
+    <div class="row"><button value="">Yopish</button></div>`, () => {});
+};
 $("#ofisTanla").onchange = (e) => { ofisId = +e.target.value; refreshOfis(); };
 $("#dizaynTanla").onchange = async (e) => { await api(`/api/ofislar/${ofisId}`, { method: "PATCH", body: { dizayn: e.target.value } }); refreshOfis(); };
 $("#hajmTanla").onchange = async (e) => {

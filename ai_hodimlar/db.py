@@ -52,9 +52,28 @@ CREATE TABLE IF NOT EXISTS vazifalar (
     holat TEXT DEFAULT 'yangi',
     natija TEXT DEFAULT '',
     created TEXT DEFAULT CURRENT_TIMESTAMP,
+    done TEXT,
+    topshiriq_id INTEGER
+);
+CREATE TABLE IF NOT EXISTS topshiriqlar (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ofis_id INTEGER NOT NULL REFERENCES ofislar(id) ON DELETE CASCADE,
+    matn TEXT NOT NULL,
+    holat TEXT DEFAULT 'yangi',
+    reja TEXT DEFAULT '',
+    hisobot TEXT DEFAULT '',
+    chat_id TEXT,
+    created TEXT DEFAULT CURRENT_TIMESTAMP,
     done TEXT
 );
 """
+
+# Eski bazalarga qo'shiladigan ustunlar: (jadval, ustun, turi)
+MIGRATSIYALAR = [
+    ("ofislar", "ulash_kodi", "TEXT"),
+    ("ofislar", "telegram_chat_id", "TEXT"),
+    ("vazifalar", "topshiriq_id", "INTEGER"),
+]
 
 
 def connect():
@@ -77,6 +96,9 @@ def tx():
 def init():
     with tx() as c:
         c.executescript(SCHEMA)
+        for jadval, ustun, turi in MIGRATSIYALAR:
+            if ustun not in {r["name"] for r in c.execute(f"PRAGMA table_info({jadval})")}:
+                c.execute(f"ALTER TABLE {jadval} ADD COLUMN {ustun} {turi}")
 
 
 def rows(sql, *args):

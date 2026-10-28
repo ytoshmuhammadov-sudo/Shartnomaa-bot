@@ -51,6 +51,8 @@ const Office = (() => {
     if (big) { L.rooms.push({ type: "meet", x: right - 9, y: 2, w: 9, h: H - 3 }); right -= 10; }
     L.kitchenX = right - 6; // oshxona burchagi
     L.boss = { x: 1, y: 2, w: 9, h: 6 };
+    // Direktor rahbar kabinetida o'tiradi; eshik kabinetning pastki devorida
+    L.bossDesk = { boss: true, seat: { x: 5 * T, y: 3.6 * T }, aisle: 3.6 * T, gap: 9 * T };
     L.round = { x: Math.round((11 + L.kitchenX) / 2) * T, y: 5 * T };
 
     // Stollar to'ri
@@ -88,8 +90,13 @@ const Office = (() => {
       key = k;
       layout = build(ofis.hajm, ofis.hodimlar.length);
       const old = new Map(agents.map((a) => [a.h.id, a]));
-      agents = ofis.hodimlar.slice(0, layout.desks.length).map((h, i) => {
-        const d = layout.desks[i], o = old.get(h.id), s = hash(h.id + h.ism);
+      // Direktor kabinetga, qolganlar navbat bilan stollarga
+      const boss = ofis.hodimlar.find((h) => h.shablon_id === "direktor");
+      const staff = ofis.hodimlar.filter((h) => h !== boss).slice(0, layout.desks.length);
+      const seats = new Map(staff.map((h, i) => [h, layout.desks[i]]));
+      if (boss) seats.set(boss, layout.bossDesk);
+      agents = [...seats].map(([h, d]) => {
+        const o = old.get(h.id), s = hash(h.id + h.ism);
         return o ? Object.assign(o, { h, desk: d }) : {
           h, desk: d, x: d.seat.x, y: d.seat.y, path: [], mode: "sit", wait: 2 + (s % 8), phase: 0,
           skin: SKIN[s % SKIN.length], hair: HAIR[(s >> 3) % HAIR.length], long: s % 2 === 0,
@@ -162,6 +169,8 @@ const Office = (() => {
     const b = layout.boss;
     ctx.fillStyle = t.glass + "33"; ctx.fillRect(b.x * T, b.y * T, b.w * T, b.h * T);
     ctx.strokeStyle = t.glass; ctx.lineWidth = 3; ctx.strokeRect(b.x * T + 2, b.y * T, b.w * T - 4, b.h * T);
+    R((b.x + 7.4) * T, (b.y + b.h) * T - 3, 1.2 * T, 6, t.floor); // eshik
+    ctx.font = "bold 8px system-ui"; ctx.textAlign = "left"; ctx.fillStyle = t.glass; ctx.fillText("DIREKTOR", b.x * T + 6, (b.y + b.h) * T - 5);
     R((b.x + 2) * T, (b.y + 2) * T, 4 * T, T * 1.2, t.desk); R((b.x + 3.2) * T, (b.y + 2) * T + 2, T * 1.4, 8, "#334155");
     ctx.fillStyle = t.chair; ctx.beginPath(); ctx.arc((b.x + 4) * T, (b.y + 1.4) * T, 6, 0, 7); ctx.fill();
     R((b.x + 6.5) * T, (b.y + 3.5) * T, T * 1.6, T * 1.6, "#2563eb");
@@ -219,13 +228,14 @@ const Office = (() => {
     ctx.fillStyle = a.skin; ctx.beginPath(); ctx.arc(x, by - 13, 4.6, 0, 7); ctx.fill();
     ctx.fillStyle = a.hair; ctx.beginPath(); ctx.arc(x, by - 14.2, 4.8, Math.PI, 0); ctx.fill();
     if (a.long) R(x - 4.8, by - 14, 2.2, 7, a.hair), R(x + 2.6, by - 14, 2.2, 7, a.hair);
-    if (sitting) { ctx.fillStyle = a.hair; ctx.beginPath(); ctx.arc(x, by - 13, 4.8, 0, 7); ctx.fill(); } // orqadan ko'rinish
+    if (sitting && !a.desk.boss) { ctx.fillStyle = a.hair; ctx.beginPath(); ctx.arc(x, by - 13, 4.8, 0, 7); ctx.fill(); } // orqadan ko'rinish
+    if (a.desk.boss) { ctx.font = "8px system-ui"; ctx.textAlign = "center"; ctx.fillText("👑", x, by - 17); }
 
     // Ism yorlig'i
     const label = a.h.ism, sel = a.h.id === selected || hover === a;
     ctx.font = "bold 8px system-ui"; ctx.textAlign = "center";
     const w = ctx.measureText(label).width + 10;
-    round(x - w / 2, by - 31, w, 11, 3, sel ? "#6d7cff" : "#1f2340dd");
+    round(x - w / 2, by - 31, w, 11, 3, sel ? "#6d7cff" : a.desk.boss ? "#b45309" : "#1f2340dd");
     ctx.fillStyle = "#fff"; ctx.fillText(label, x, by - 23);
     // Holat pufakchasi
     if (a.h.holat === "ishlayapti" && sitting) {
@@ -247,5 +257,5 @@ const Office = (() => {
     requestAnimationFrame(loop);
   }
 
-  return { init, load, select, capacity: (hajm) => build(hajm, 0).desks.length };
+  return { init, load, select, capacity: (hajm) => build(hajm, 0).desks.length + 1 };
 })();

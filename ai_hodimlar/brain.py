@@ -108,7 +108,7 @@ def suhbat(hodim_id: int, matn: str) -> str:
     return javob
 
 
-def vazifa_bajar(vazifa_id: int):
+def vazifa_bajar(vazifa_id: int, kontekst: str = ""):
     v = db.one("SELECT * FROM vazifalar WHERE id = ?", vazifa_id)
     hodim = db.one("SELECT * FROM hodimlar WHERE id = ?", v["hodim_id"])
     db.run("UPDATE vazifalar SET holat = 'jarayonda' WHERE id = ?", vazifa_id)
@@ -116,6 +116,8 @@ def vazifa_bajar(vazifa_id: int):
     try:
         prompt = ("Rahbardan yangi vazifa keldi. Uni to'liq bajar va tayyor natijani ber "
                   "(matn, jadval yoki reja ko'rinishida, darhol ishlatsa bo'ladigan holda).\n\nVazifa: " + v["matn"])
+        if kontekst:
+            prompt += "\n\nHamkasblaringning oldingi bosqichdagi natijalari (shularga tayan):\n" + kontekst
         natija = _ask(system_prompt(hodim), [{"role": "user", "content": prompt}], effort="high")
         db.run("UPDATE vazifalar SET holat = 'bajarildi', natija = ?, done = CURRENT_TIMESTAMP WHERE id = ?",
                natija, vazifa_id)
@@ -135,7 +137,7 @@ JAMOA_SCHEMA = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "shablon_id": {"type": "string", "enum": list(SHABLONLAR)},
+                    "shablon_id": {"type": "string", "enum": [k for k in SHABLONLAR if k != "direktor"]},
                     "sabab": {"type": "string"},
                     "qoshimcha_instruksiya": {"type": "string"},
                 },
@@ -171,7 +173,7 @@ def jamoa_tuz(biznes_tavsifi: str, soni: int) -> dict:
     data = json.loads(text)
     seen, out = set(), []
     for h in data.get("hodimlar", []):
-        if h["shablon_id"] in SHABLONLAR and h["shablon_id"] not in seen:
+        if h["shablon_id"] in SHABLONLAR and h["shablon_id"] not in seen | {"direktor"}:
             seen.add(h["shablon_id"])
             out.append(h)
     data["hodimlar"] = out[:soni]
