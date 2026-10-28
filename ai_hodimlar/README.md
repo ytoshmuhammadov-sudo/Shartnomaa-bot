@@ -42,6 +42,20 @@ Biznesmen (Telegram guruhda yozadi yoki 🎤 gapiradi)
 **admin qiladi** (yoki BotFather'da `/setprivacy` → Disable) → guruhga admin paneldagi "📲 Telegram" oynasidagi `/ulash KOD` ni yozadi.
 Bitta bot hamma mijozlarga xizmat qiladi; har bir guruh o'z ofisiga ulanadi.
 
+## Railway'ga joylash
+
+Repoda tayyor: `ai_hodimlar/Dockerfile` va `ai_hodimlar/railway.json` (healthcheck `/salomatlik`, 1 nusxa).
+
+1. railway.app → **New Project → Deploy from GitHub repo** → `Shartnomaa-bot`.
+2. Servis **Settings**:
+   - *Source → Branch*: `claude/ai-hodimlar-platform-xx0ioe` (yoki main'ga merge qilgach `main`);
+   - *Config-as-code → Railway Config File*: `ai_hodimlar/railway.json`.
+3. **Variables**: `ANTHROPIC_API_KEY`, `ADMIN_TOKEN`, `AI_HODIM_BOT_TOKEN`, (ixtiyoriy) `OPENAI_API_KEY`.
+4. Servisga o'ng tugma → **Attach Volume** → mount path: `/data` (bazа shu yerda saqlanadi, deploy'da o'chmaydi).
+5. **Settings → Networking → Generate Domain** → linkni oching, `ADMIN_TOKEN` parolini kiriting.
+
+Shartnoma boti (`main.py`) alohida servis bo'lib qoladi; bu panel unga tegmaydi.
+
 ## Ishga tushirish
 
 ```bash

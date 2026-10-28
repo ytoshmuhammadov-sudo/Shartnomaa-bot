@@ -314,6 +314,12 @@ def matn_ovozga(x: XabarIn):
 
 # ---------- Frontend ----------
 
+@app.get("/salomatlik")
+def salomatlik():
+    """Railway healthcheck (parolsiz)."""
+    return {"ok": True}
+
+
 @app.get("/")
 def index():
     return FileResponse(os.path.join(STATIC, "index.html"))
