@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Hodimlar — Admin panel</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<aside id="menu">
+  <div class="logo">🤖 <b>AI Hodimlar</b></div>
+  <button data-view="ofislar" class="active">🏢 Ofislar</button>
+  <button data-view="mijozlar">🧾 Mijozlar</button>
+  <button data-view="katalog">👥 Hodimlar katalogi</button>
+  <button data-view="komplektlar">📦 Komplektlar</button>
+  <button data-view="bilim">🧠 Bilim bazasi</button>
+  <div class="menu-foot" id="bilimHolat"></div>
+</aside>
+
+<main>
+  <!-- OFISLAR -->
+  <section id="v-ofislar" class="view active">
+    <div class="bar">
+      <h1>Ofislar</h1>
+      <select id="ofisTanla"></select>
+      <select id="dizaynTanla" title="Ofis dizayni">
+        <option value="klassik">🎨 Klassik</option>
+        <option value="tungi">🌙 Tungi</option>
+        <option value="yashil">🌿 Yashil</option>
+        <option value="premium">✨ Premium</option>
+      </select>
+      <select id="hajmTanla" title="Ofis hajmi">
+        <option value="kichik">Kichik</option>
+        <option value="orta">O'rta</option>
+        <option value="katta">Katta</option>
+        <option value="mega">Mega</option>
+      </select>
+      <button id="topshiriqBtn">🎯 Direktorga topshiriq</button>
+      <button id="hodimQoshBtn">➕ Hodim qo'shish</button>
+      <button id="telegramBtn">📲 Telegram</button>
+      <span class="stat" id="ofisStat"></span>
+    </div>
+    <div id="ofisWrap"><canvas id="ofis"></canvas><div id="bosh" class="bosh">Hali ofis yo'q. "Mijozlar" bo'limida mijoz qo'shing va unga ofis yarating.</div></div>
+    <div id="hodimRoyxat" class="chips"></div>
+    <h2 class="sub">🎯 Direktor topshiriqlari</h2>
+    <div id="topshiriqlar"></div>
+  </section>
+
+  <!-- MIJOZLAR -->
+  <section id="v-mijozlar" class="view">
+    <div class="bar"><h1>Mijozlar (biznesmenlar)</h1></div>
+    <form id="mijozForm" class="card form">
+      <input name="nom" placeholder="Kompaniya nomi" required>
+      <input name="telefon" placeholder="Telefon">
+      <textarea name="biznes_tavsifi" placeholder="Biznes haqida: nima sotadi, qayerda, mijozlari kim, qanday muammolari bor..."></textarea>
+      <button>Mijoz qo'shish</button>
+    </form>
+    <div id="mijozRoyxat"></div>
+  </section>
+
+  <!-- KATALOG -->
+  <section id="v-katalog" class="view">
+    <div class="bar"><h1>Hodimlar katalogi</h1><input id="qidir" placeholder="🔎 Qidirish..."></div>
+    <div id="katalogRoyxat"></div>
+  </section>
+
+  <!-- KOMPLEKTLAR -->
+  <section id="v-komplektlar" class="view">
+    <div class="bar"><h1>Komplektlar (sotuv paketlari)</h1></div>
+    <div id="komplektRoyxat" class="grid"></div>
+  </section>
+
+  <!-- BILIM -->
+  <section id="v-bilim" class="view">
+    <div class="bar"><h1>Bilim bazasi</h1>
+      <select id="bilimShablon"></select>
+      <button id="bilimYangila">🔄 Hozir yangilash</button>
+    </div>
+    <p class="muted">Har bir hodim shabloni o'z sohasidagi yangiliklarni 24/7 o'qiydi. Bilim shablonga yoziladi — shu shablondan sotilgan barcha nusxalar birdaniga aqlliroq bo'ladi.</p>
+    <div id="bilimRoyxat"></div>
+  </section>
+</main>
+
+<!-- HODIM PANELI -->
+<aside id="panel" class="hidden">
+  <div class="panel-head">
+    <div id="pAvatar" class="avatar"></div>
+    <div><b id="pIsm"></b><div class="muted" id="pLavozim"></div></div>
+    <button class="x" id="pYop">✕</button>
+  </div>
+  <div class="tabs">
+    <button data-tab="chat" class="active">💬 Suhbat</button>
+    <button data-tab="vazifa">✅ Vazifalar</button>
+    <button data-tab="sozlama">⚙️ Sozlama</button>
+  </div>
+  <div class="tab active" id="t-chat">
+    <div id="chat"></div>
+    <form id="chatForm">
+      <button type="button" id="mic" title="O'zbekcha gapiring">🎤</button>
+      <input id="chatInput" placeholder="Yozing yoki 🎤 bosib gapiring..." autocomplete="off">
+      <button>➤</button>
+    </form>
+    <label class="muted small" style="flex-direction:row;align-items:center"><input type="checkbox" id="ovozJavob"> Javobni ovozda o'qish</label>
+  </div>
+  <div class="tab" id="t-vazifa">
+    <form id="vazifaForm"><textarea id="vazifaInput" placeholder="Vazifa bering. Masalan: Ertangi kun uchun 3 ta Instagram post yoz"></textarea><button>Topshirish</button></form>
+    <div id="vazifalar"></div>
+  </div>
+  <div class="tab" id="t-sozlama">
+    <label>Ism<input id="sIsm"></label>
+    <label>Shu mijoz uchun qo'shimcha ko'rsatma<textarea id="sInstr" rows="6"></textarea></label>
+    <button id="sSaqla">Saqlash</button>
+    <details><summary>Bazaviy instruksiya (shablon)</summary><pre id="sBaza"></pre></details>
+    <button id="sOchir" class="danger">Hodimni o'chirish</button>
+  </div>
+</aside>
+
+<dialog id="dlg"><form method="dialog" id="dlgBody"></form></dialog>
+
+<script src="/static/office.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>
