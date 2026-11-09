@@ -352,6 +352,94 @@ label{display:block;font-weight:600;font-size:16px}
   .stats{grid-template-columns:repeat(4,1fr)}
   .three{grid-template-columns:repeat(3,1fr)}
 }
+
+/* ---------- yangi bloklar ---------- */
+[hidden]{display:none!important}
+h1.h1res{font-size:clamp(44px,13vw,92px)}
+.hero .sub b{color:var(--gold-l);font-weight:600}
+.cta2{margin-top:22px}
+/* AI demo chat */
+.demo{display:grid;gap:22px;margin-top:22px}
+.chatbox{background:#0E1A17;border:1px solid rgba(232,203,142,.25);border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+.chatbox header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#132723;border-bottom:1px solid rgba(255,255,255,.06)}
+.chatbox header i{width:38px;height:38px;border-radius:50%;flex:none;background:linear-gradient(135deg,#E8CB8E,#80622A);display:grid;place-items:center;font:700 15px/1 var(--head);color:var(--em);font-style:normal}
+.chatbox header b{display:block;font-size:15.5px}
+.chatbox header small{display:block;font-size:12.5px;color:var(--green)}
+.msgs2{height:340px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;scroll-behavior:smooth}
+.m2{max-width:84%;padding:9px 13px;border-radius:14px;font-size:15.5px;line-height:1.45;animation:fadeup .35s var(--ease)}
+.m2.bot{background:#1D3530;align-self:flex-start;border-bottom-left-radius:4px}
+.m2.me{background:linear-gradient(180deg,#F2DBA8,#E2BF7C);color:var(--em);align-self:flex-end;border-bottom-right-radius:4px;font-weight:500}
+.m2.typing{display:flex;gap:4px;align-items:center;padding:13px 14px}
+.m2.typing span{width:7px;height:7px;border-radius:50%;background:#9DB3AB;animation:blink 1s infinite}
+.m2.typing span:nth-child(2){animation-delay:.15s}.m2.typing span:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
+.qs{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px 14px;border-top:1px solid rgba(255,255,255,.06)}
+.qs button{border:1px solid rgba(232,203,142,.45);background:rgba(232,203,142,.08);color:var(--gold-l);border-radius:999px;padding:9px 14px;font-size:14.5px;font-weight:500;cursor:pointer;transition:background .2s}
+.qs button:hover{background:rgba(232,203,142,.2)}
+.qs button:disabled{opacity:.4;cursor:default}
+.demo .pts{display:grid;gap:10px;align-content:start}
+.demo .pts li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;color:#DCE7E3}
+.demo .pts li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(124,242,176,.15);color:var(--green);font-weight:700}
+/* kalkulyator */
+.calc{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 16px;display:grid;gap:22px;box-shadow:0 20px 50px -30px rgba(5,45,39,.45)}
+.rng label{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.rng output{font:700 26px/1 var(--head);color:var(--em);white-space:nowrap}
+.rng input{width:100%;margin-top:12px;accent-color:var(--gold-d);height:28px}
+.rng small{display:flex;justify-content:space-between;color:var(--mut);font-size:13px}
+.res-box{border-radius:14px;padding:18px 16px;background:radial-gradient(120% 120% at 0 0,#0B3A32,#052D27 60%,#031A16);color:#fff;text-align:center}
+.res-box span{display:block;font-size:14px;letter-spacing:.08em;color:var(--gold-l);text-transform:uppercase;font-weight:600}
+.res-box strong{display:block;margin-top:6px;font:700 clamp(34px,10vw,56px)/1.05 var(--head)}
+.res-box p{margin-top:8px;color:#C9D8D2;font-size:15px}
+.calc .fine{color:var(--mut);font-size:13px}
+/* kim uchun */
+.who{margin-top:22px;display:grid;gap:14px}
+.who>div{border-radius:16px;padding:18px 16px;background:#fff;border:1px solid var(--line)}
+.who h3{font:600 22px/1.2 var(--head);text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.who .yes h3{color:#1E7A4C}.who .no h3{color:#BE3F3A}
+.who h3 i{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:17px;color:#fff;flex:none}
+.who .yes h3 i{background:#1E9A55}.who .no h3 i{background:#E0584F}
+.who ul{margin-top:12px;display:grid;gap:10px}
+.who li{padding-left:22px;position:relative;line-height:1.45;color:var(--ink)}
+.who li::before{content:"";position:absolute;left:4px;top:.6em;width:8px;height:8px;border-radius:50%}
+.who .yes li::before{background:#1E9A55}.who .no li::before{background:#E0584F}
+.who .no{background:#FFF7F6;border-color:#F3D3CF}
+.who-note{margin-top:16px;font-weight:600;color:var(--em)}
+/* FAQ */
+.faq{margin-top:22px;display:grid;gap:10px}
+.faq details{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:16px 50px 16px 16px;position:relative;font-weight:600;color:var(--em);font-size:17px;line-height:1.35}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:14px;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:var(--em);color:var(--gold-l);display:grid;place-items:center;font-size:20px;transition:transform .3s}
+.faq details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+.faq details p{padding:0 16px 16px;color:var(--mut);line-height:1.55}
+/* sovg'a, soha, telegram */
+.gift{margin-top:20px;display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;border:1.5px dashed var(--gold);border-radius:14px;padding:14px;background:rgba(232,203,142,.08)}
+.gift i{font-style:normal;font-size:30px;width:56px;height:56px;border-radius:14px;display:grid;place-items:center;background:rgba(232,203,142,.18);animation:wig 2.4s ease-in-out infinite}
+@keyframes wig{0%,80%,100%{transform:none}85%{transform:rotate(-10deg)}90%{transform:rotate(10deg)}95%{transform:rotate(-6deg)}}
+.gift b{display:block;font:600 19px/1.25 var(--head);color:var(--gold-l);text-transform:uppercase}
+.gift span{display:block;margin-top:3px;font-size:15px;color:#DCE7E3}
+.soha{border:0;padding:0;margin:0;min-width:0}
+.soha legend{font-weight:600;font-size:16px;padding:0}
+.soha legend small{font-weight:400;color:var(--mut)}
+.chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px}
+.chips label{font-weight:500;font-size:15px}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-block;padding:9px 13px;border:1.5px solid #B9C4BF;border-radius:999px;cursor:pointer;transition:all .2s}
+.chips input:checked+span{background:var(--em);border-color:var(--em);color:var(--gold-l)}
+.chips input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.or{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:14px}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.tg-btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;border-radius:12px;background:#229ED9;color:#fff;font-weight:700;font-size:17px;text-decoration:none;transition:filter .2s}
+.tg-btn:hover{filter:brightness(1.08)}
+.tg-btn svg{width:24px;height:24px;flex:none}
+.ok .tg-btn{margin-top:4px}
+@media (min-width:860px){
+  .demo{grid-template-columns:1.1fr 1fr;gap:48px;align-items:center}
+  .calc{grid-template-columns:1fr 1fr;padding:32px;gap:32px;align-items:center}
+  .calc .fine{grid-column:1/-1}
+  .who{grid-template-columns:1fr 1fr}
+  .faq{max-width:820px}
+}
 @media (min-width:860px){
   body{font-size:18px}
   section.s{padding:96px 0}
@@ -414,8 +502,8 @@ label{display:block;font-weight:600;font-size:16px}
   <div class="wrap">
     <figure class="ph"><img src="assets/web/cover.webp" alt="BM Akademiyasi jamoasi" width="1100" height="1028" fetchpriority="high"><i class="sweep"></i></figure>
     <div class="tx">
-      <span class="kicker fade" style="--d:.1s">Kurs taqdimoti</span>
-      <h1><span class="ln"><span style="--d:.25s">30 kunda</span></span><span class="ln"><span class="gold" style="--d:.45s">AI jamoa</span></span></h1>
+      <span class="kicker fade" style="--d:.1s">«30 kunda AI jamoa» kursi</span>
+      <h1 class="h1res"><span class="ln"><span style="--d:.25s">30 kunda</span></span><span class="ln"><span style="--d:.35s">biznesingiz</span></span><span class="ln"><span class="gold" style="--d:.45s">sizsiz ham</span></span><span class="ln"><span class="gold" style="--d:.55s">ishlaydi</span></span></h1>
       <p class="sub fade" style="--d:.8s">AI xodimlar orqali biznesni tizimlashtirish kursi</p>
       <p class="author fade" style="--d:.95s">Muallif: <b>Bobur Mirzo Yo'ldoshboyev</b></p>
       <p class="lead fade" style="--d:1.1s">Bir oy ichida o'z biznesingiz uchun <em>AI xodimlar jamoasini</em> o'z qo'lingiz bilan qurasiz.</p>
@@ -575,6 +663,27 @@ label{display:block;font-weight:600;font-size:16px}
   </div>
 </section>
 
+<section class="s dark aura" id="demo">
+  <div class="wrap">
+    <span class="kicker rv">Jonli namoyish</span>
+    <h2 class="rv" style="--d:.08s">AI xodimga o'zingiz savol bering</h2>
+    <p class="intro rv">Gapga emas, ko'zingiz bilan ko'rganingizga ishoning. 5-darsda aynan shunday xodimni o'zingiz yasaysiz.</p>
+    <div class="demo">
+      <div class="chatbox rv z">
+        <header><i>BM</i><div><b>BM AI menejer</b><small id="dSt">onlayn · 24/7</small></div></header>
+        <div class="msgs2" id="dMsgs" aria-live="polite"></div>
+        <div class="qs" id="dQs"></div>
+      </div>
+      <ul class="pts">
+        <li class="rv" style="--d:.1s">Mijozga kechayu kunduz, bir necha soniyada javob beradi</li>
+        <li class="rv" style="--d:.18s">Charchamaydi, kasal bo'lmaydi, ishdan ketmaydi</li>
+        <li class="rv" style="--d:.26s">Har bir murojaatni avtomatik CRM'ga yozadi</li>
+        <li class="rv" style="--d:.34s">Muhim qarorlarni sizga tasdiqlash uchun yuboradi</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="s light">
   <div class="wrap">
     <span class="kicker rv">Jiningiz tayyor</span>
@@ -590,6 +699,63 @@ label{display:block;font-weight:600;font-size:16px}
   </div>
 </section>
 
+<section class="s white" id="hisob">
+  <div class="wrap">
+    <span class="kicker rv">Hisoblab ko'ring</span>
+    <h2 class="rv" style="--d:.08s">AI jamoa sizga qancha tejaydi?</h2>
+    <p class="intro rv">Ikki raqamni kiriting va yiliga qancha pulingiz qolishini ko'ring.</p>
+    <div class="calc rv">
+      <div style="display:grid;gap:22px">
+        <div class="rng">
+          <label for="cN">Xodimlar soni <output id="oN" for="cN">5 nafar</output></label>
+          <input type="range" id="cN" min="1" max="50" value="5">
+          <small><span>1</span><span>50</span></small>
+        </div>
+        <div class="rng">
+          <label for="cS">O'rtacha oylik maosh <output id="oS" for="cS">5 mln so'm</output></label>
+          <input type="range" id="cS" min="1" max="30" value="5">
+          <small><span>1 mln</span><span>30 mln</span></small>
+        </div>
+      </div>
+      <div class="res-box">
+        <span>Yiliga tejaysiz</span>
+        <strong><b id="cRes" style="font-weight:inherit">120 000 000</b> so'm</strong>
+        <p>Bu pul har yili ish haqiga ketmay, biznesingizda qoladi</p>
+      </div>
+      <p class="fine">Taxminiy hisob: AI xodimlar jamoasi ish hajmining 40 foizini o'z zimmasiga oladi deb olindi. Haqiqiy natija biznesingiz turiga bog'liq.</p>
+    </div>
+    <a class="btn cta2 rv" href="#yozilish" style="max-width:420px">Shu pulni tejashni xohlayman</a>
+  </div>
+</section>
+
+<section class="s light" id="kim">
+  <div class="wrap">
+    <span class="kicker rv">Saralash</span>
+    <h2 class="rv" style="--d:.08s">Bu kurs hamma uchun emas</h2>
+    <div class="who">
+      <div class="yes rv l" style="--d:.1s">
+        <h3><i>✓</i>Siz uchun, agar</h3>
+        <ul>
+          <li>Biznes egasi yoki rahbarsiz va hamma ish sizdan o'tadi</li>
+          <li>Xodim topish, o'rgatish va nazorat qilishdan charchagansiz</li>
+          <li>AI haqida ko'p eshitgansiz, lekin amalda qo'llay olmagansiz</li>
+          <li>Natija uchun bir oy davomida haftasiga 2 kun ajrata olasiz</li>
+        </ul>
+      </div>
+      <div class="no rv l" style="--d:.2s">
+        <h3><i>✕</i>Siz uchun emas, agar</h3>
+        <ul>
+          <li>Hech narsa qilmasdan tez boyib ketishni kutayotgan bo'lsangiz</li>
+          <li>Faqat sertifikat uchun o'qimoqchi bo'lsangiz</li>
+          <li>Darsda o'rganganingizni biznesingizga qo'llashga tayyor bo'lmasangiz</li>
+          <li>"Menda hammasi joyida, o'zgarish shart emas" deb o'ylasangiz</li>
+        </ul>
+      </div>
+    </div>
+    <p class="who-note rv">Guruhlar kichik, shuning uchun joylar faqat jiddiy tadbirkorlarga beriladi.</p>
+  </div>
+</section>
+
 <section class="s deep aura">
   <div class="wrap guar">
     <div class="medal rv z"><img src="assets/web/kafolat.webp" alt="Oltin kafolat medali" loading="lazy" width="600" height="600"></div>
@@ -597,7 +763,7 @@ label{display:block;font-weight:600;font-size:16px}
       <span class="kicker rv">Kafolat</span>
       <div class="bignum gold rv" style="animation:shimmer 5s linear infinite"><span data-count="100">100</span>%</div>
       <h2 class="rv">Pulingiz qaytariladi</h2>
-      <p class="intro rv">Kursda hech qanday natija ololmasangiz, to'lagan pulingizning 100 foizi qaytariladi. Tavakkal butunlay bizning zimmamizda.</p>
+      <p class="intro rv">Agar 7-darsgacha o'z AI xodimingiz ishlamasa, to'lagan pulingizning 100 foizini qaytaramiz. Savolsiz. Tavakkal butunlay bizning zimmamizda.</p>
     </div>
   </div>
 </section>
@@ -620,6 +786,22 @@ label{display:block;font-weight:600;font-size:16px}
   </div>
 </section>
 
+
+<section class="s white" id="faq">
+  <div class="wrap">
+    <span class="kicker rv">Savol-javob</span>
+    <h2 class="rv" style="--d:.08s">Sizni o'ylantirayotgan savollar</h2>
+    <div class="faq">
+      <details class="rv"><summary>Men texnikani yaxshi bilmayman. Uddalay olamanmi?</summary><p>Ha. Kurs dasturchilar uchun emas, tadbirkorlar uchun tuzilgan. Hamma narsa oddiy tilda tushuntiriladi va darsning o'zida birga qilinadi. Qiynalsangiz, AI kurator 24/7, inson kurator esa kerak paytda yordam beradi.</p></details>
+      <details class="rv"><summary>Vaqtim juda kam. Ulgura olamanmi?</summary><p>Kurs haftasiga 2 marta, 4 soatdan. Bir oy shu vaqtni ajratsangiz, AI jamoangiz keyin har kuni sizning soatlab vaqtingizni bo'shatadi. Vaqtingiz yo'qligining sababi ham aynan hamma ish sizdan o'tayotgani.</p></details>
+      <details class="rv"><summary>Qimmat emasmi?</summary><p>Bitta xodimning bir oylik maoshi bilan solishtiring. Kursda quradigan AI jamoangiz esa yillar davomida maoshsiz ishlaydi. Yuqoridagi kalkulyatorda o'zingiz hisoblab ko'ring. Narx va to'lov tartibini menejer aytadi.</p></details>
+      <details class="rv"><summary>Natija chiqmasa-chi?</summary><p>Agar 7-darsgacha o'z AI xodimingiz ishlamasa, to'lagan pulingizning 100 foizini qaytaramiz. Savolsiz. Tavakkal butunlay bizning zimmamizda.</p></details>
+      <details class="rv"><summary>Noutbuk kerakmi?</summary><p>Tizimingizni darsning o'zida qurasiz, shuning uchun noutbuk bilan kelish tavsiya etiladi. Aniq talablarni menejer aytadi.</p></details>
+      <details class="rv"><summary>Darslar qayerda va qachon bo'ladi?</summary><p>Darslar 14-noyabrdan boshlanadi, haftasiga 2 marta, oflayn, kichik guruhlarda. Manzil va dars vaqtini ariza qoldirganingizdan keyin menejer aytadi.</p></details>
+    </div>
+  </div>
+</section>
+
 <section class="s buy" id="yozilish">
   <div class="wrap pay">
     <div>
@@ -627,6 +809,7 @@ label{display:block;font-weight:600;font-size:16px}
       <h2 class="rv" style="--d:.08s">Kursga joyingizni band qiling</h2>
       <p class="dates rv">14-noyabrdan · haftasiga 2 marta · oflayn</p>
       <p class="intro rv">Guruhlar kichik. Ariza qoldiring, menejer siz bilan bog'lanib, narx, manzil va to'lov tartibini aytadi.</p>
+      <div class="gift rv"><i>🎁</i><div><b>Hozir yozilganlarga sovg'a</b><span>100 ta tayyor AI prompt to'plami: sotuv, marketing, xodimlar va boshqaruv uchun</span></div></div>
     </div>
     <div class="frame rv z">
       <form id="lead" novalidate>
@@ -638,12 +821,27 @@ label{display:block;font-weight:600;font-size:16px}
           <label for="phone">Telefon raqamingiz</label>
           <div class="ph-in"><span>+998</span><input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="90 123 45 67" required></div>
         </div>
+        <fieldset class="soha">
+          <legend>Biznesingiz qaysi sohada? <small>(ixtiyoriy)</small></legend>
+          <div class="chips">
+            <label><input type="radio" name="soha" value="Savdo"><span>Savdo</span></label>
+            <label><input type="radio" name="soha" value="Xizmat ko'rsatish"><span>Xizmat ko'rsatish</span></label>
+            <label><input type="radio" name="soha" value="Ishlab chiqarish"><span>Ishlab chiqarish</span></label>
+            <label><input type="radio" name="soha" value="Ta'lim"><span>Ta'lim</span></label>
+            <label><input type="radio" name="soha" value="Restoran / kafe"><span>Restoran / kafe</span></label>
+            <label><input type="radio" name="soha" value="Onlayn do'kon"><span>Onlayn do'kon</span></label>
+            <label><input type="radio" name="soha" value="Boshqa"><span>Boshqa</span></label>
+          </div>
+        </fieldset>
         <p class="err" id="err" role="alert"></p>
         <button class="btn" type="submit" id="send">Joyimni band qilish</button>
+        <div class="or">yoki</div>
+        <a class="tg-btn" href="https://t.me/+998999990038" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M21.9 4.3 18.6 19.8c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.4 1.1 11.9c-1.1-.3-1.1-1.1.2-1.6l19.1-7.4c.9-.3 1.7.2 1.5 1.4z"/></svg>Telegram orqali yozilish</a>
       </form>
       <div class="ok" id="ok" hidden role="status">
         <b>Rahmat! Arizangiz qabul qilindi.</b>
-        <p>Menejer tez orada siz bilan bog'lanadi.</p>
+        <p>Menejer tez orada siz bilan bog'lanadi va 100 ta AI prompt sovg'angizni yuboradi.</p>
+        <a class="tg-btn" href="https://t.me/+998999990038" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M21.9 4.3 18.6 19.8c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.4 1.1 11.9c-1.1-.3-1.1-1.1.2-1.6l19.1-7.4c.9-.3 1.7.2 1.5 1.4z"/></svg>Telegram'da yozish</a>
       </div>
     </div>
   </div>
@@ -660,7 +858,7 @@ label{display:block;font-weight:600;font-size:16px}
 
 <script>
 // Foydalanuvchi tasdiqlamaguncha CRM'ga ulanmaydi: CRM_URL bo'sh bo'lsa forma sinov rejimida ishlaydi.
-const CONFIG = { CRM_URL: '', KURS: '30-kunda-ai-jamoa' };
+const CONFIG = { CRM_URL: '', KURS: '30-kunda-ai-jamoa', TELEGRAM: 'https://t.me/+998999990038' };
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -949,6 +1147,60 @@ new IntersectionObserver(([e]) => { seen.form = e.isIntersecting; sbar.classList
 // fon animatsiyalari tab ko'rinmaganda to'xtaydi
 document.addEventListener('visibilitychange', () => document.body.classList.toggle('paused', document.hidden));
 
+// ---------- kalkulyator ----------
+(() => {
+  const n = $('#cN'), s = $('#cS'), res = $('#cRes'), oN = $('#oN'), oS = $('#oS');
+  const ULUSH = 0.4; // AI olib qo'yadigan ish ulushi
+  const fmt = v => Math.round(v).toLocaleString('ru-RU').replace(/\s/g, ' ');
+  let shown = 0, raf;
+  function upd() {
+    oN.textContent = n.value + ' nafar';
+    oS.textContent = s.value + " mln so'm";
+    const to = n.value * s.value * 1e6 * 12 * ULUSH, from = shown, t0 = performance.now();
+    cancelAnimationFrame(raf);
+    if (RM) { shown = to; res.textContent = fmt(to); return; }
+    const step = t => { const k = Math.min((t - t0) / 500, 1); shown = from + (to - from) * (1 - Math.pow(1 - k, 3)); res.textContent = fmt(shown); if (k < 1) raf = requestAnimationFrame(step); };
+    raf = requestAnimationFrame(step);
+  }
+  n.addEventListener('input', upd); s.addEventListener('input', upd);
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); shown = 0; upd(); } }, { threshold: .4 }).observe(res);
+})();
+
+// ---------- AI xodim demosi (tayyor ssenariy) ----------
+(() => {
+  const box = $('#dMsgs'), qs = $('#dQs'), st = $('#dSt');
+  const QA = [
+    ['Kurs qachon boshlanadi?', "Darslar 14-noyabrdan boshlanadi 🗓 Haftasiga 2 marta, har bir dars 4 soat. Kurs 1 oy davom etadi, jami 7 ta dars."],
+    ['Narxi qancha?', "Narx guruh va to'lov tartibiga bog'liq. Ismingiz va raqamingizni qoldiring, menejer aniq narxni aytadi. Hozir yozilganlarga 100 ta AI prompt sovg'a 🎁"],
+    ["Texnikani bilmasam ham bo'ladimi?", "Albatta! Kurs dasturchilar uchun emas, tadbirkorlar uchun. Hammasi darsning o'zida birga qilinadi, AI kurator esa 24/7 yordam beradi 🤝"],
+    ['Natija chiqmasa-chi?', "Agar 7-darsgacha o'z AI xodimingiz ishlamasa, pulingizning 100% qaytariladi. Savolsiz ✅"],
+    ['Qayerda o\'tadi?', "Darslar oflayn, kichik guruhlarda. Aniq manzilni ariza qoldirganingizdan keyin menejer aytadi 📍"]
+  ];
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const add = (cls, html) => { const d = document.createElement('div'); d.className = 'm2 ' + cls; d.innerHTML = html; box.appendChild(d); box.scrollTop = box.scrollHeight; return d; };
+  let busy = false;
+  async function ask(i, btn) {
+    if (busy) return; busy = true;
+    qs.querySelectorAll('button').forEach(b => b.disabled = true);
+    add('me', QA[i][0]);
+    await sleep(RM ? 0 : 450);
+    st.textContent = 'yozmoqda…';
+    const t = add('bot typing', '<span></span><span></span><span></span>');
+    await sleep(RM ? 0 : 900 + QA[i][1].length * 8);
+    t.remove(); st.textContent = 'onlayn · 24/7';
+    add('bot', QA[i][1]);
+    btn.remove();
+    if (!qs.children.length) {
+      await sleep(RM ? 0 : 600);
+      add('bot', 'Kursga joy band qilasizmi? <a href="#yozilish" style="color:var(--gold-l);font-weight:700">Joyimni band qilish →</a>');
+    }
+    qs.querySelectorAll('button').forEach(b => b.disabled = false);
+    busy = false;
+  }
+  QA.forEach((q, i) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = q[0]; b.onclick = () => ask(i, b); qs.appendChild(b); });
+  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); add('bot', "Assalomu alaykum! 👋 Men Bobur Mirzo Akademiyasining AI menejeriman. Kurs haqida istalgan savolingizni pastdan tanlang."); } }, { threshold: .5 }).observe(box);
+})();
+
 // ---------- forma ----------
 const phone = $('#phone');
 phone.addEventListener('input', () => {
@@ -962,7 +1214,8 @@ $('#lead').addEventListener('submit', async e => {
   if (digits.length !== 9) { err.textContent = 'Telefon raqamni to\'liq yozing: 9 ta raqam.'; phone.focus(); return; }
   err.textContent = '';
   const utm = Object.fromEntries([...new URLSearchParams(location.search)].filter(([k]) => k.startsWith('utm_') || k === 'manba'));
-  const lead = { name, phone: '+998' + digits, kurs: CONFIG.KURS, ...utm };
+  const soha = (f.querySelector('input[name=soha]:checked') || {}).value || '';
+  const lead = { name, phone: '+998' + digits, soha, kurs: CONFIG.KURS, ...utm };
   if (!CONFIG.CRM_URL) {
     console.warn('CRM ulanmagan, ariza yuborilmadi:', lead);
     f.hidden = true; $('#ok').hidden = false;
