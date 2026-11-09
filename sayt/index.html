@@ -354,6 +354,21 @@ label{display:block;font-weight:600;font-size:16px}
 }
 
 /* ---------- yangi bloklar ---------- */
+/* teskari sanoq */
+.cd-wrap{margin-top:20px}
+.cd-t{display:block;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-l);margin-bottom:8px}
+.cd{display:flex;align-items:flex-start;gap:6px}
+.cd>div{flex:1;min-width:0;text-align:center;border-radius:12px;padding:10px 4px 8px;background:rgba(12,64,55,.75);border:1px solid rgba(232,203,142,.35);backdrop-filter:blur(6px)}
+.cd b{display:block;font:700 clamp(30px,9vw,44px)/1 var(--head);font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#FFF4D6,#E8CB8E 55%,#B98F45);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cd span{display:block;margin-top:5px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#C9D8D2}
+.cd i{font:700 26px/1 var(--head);color:var(--gold);font-style:normal;padding-top:12px;animation:blink 1s steps(1) infinite}
+.cd.lt>div{background:var(--em);border-color:var(--em)}
+.cd-done{font:600 20px/1.3 var(--head);color:var(--gold-l)}
+.light .cd-t,.white .cd-t{color:var(--gold-d)}
+.white .cd-done,.light .cd-done{color:var(--em)}
+.sbar .tm{font:700 18px/1.1 var(--head);color:var(--em);white-space:nowrap;font-variant-numeric:tabular-nums}
+@media (min-width:860px){.hero .cd-wrap{max-width:460px}}
+
 [hidden]{display:none!important}
 h1.h1res{font-size:clamp(44px,13vw,92px)}
 .hero .sub b{color:var(--gold-l);font-weight:600}
@@ -508,10 +523,17 @@ h1.h1res{font-size:clamp(44px,13vw,92px)}
       <p class="author fade" style="--d:.95s">Muallif: <b>Bobur Mirzo Yo'ldoshboyev</b></p>
       <p class="lead fade" style="--d:1.1s">Bir oy ichida o'z biznesingiz uchun <em>AI xodimlar jamoasini</em> o'z qo'lingiz bilan qurasiz.</p>
       <dl class="facts fade" style="--d:1.25s">
-        <div class="fc"><dt>BOSHLANISHI</dt><dd>14-noyabr</dd><small>Haftasiga 2 marta, 4 soatdan</small></div>
+        <div class="fc"><dt>BOSHLANISHI</dt><dd>14-noyabr, 14:00</dd><small>Haftasiga 2 marta, 4 soatdan</small></div>
         <div class="fc"><dt>DAVOMIYLIGI</dt><dd>1 oy · 7 dars</dd></div>
         <div class="fc"><dt>FORMAT</dt><dd>Oflayn</dd><small>Kichik guruhlarda</small></div>
       </dl>
+      <div class="cd-wrap fade" style="--d:1.35s"><span class="cd-t">Darslar boshlanishiga qoldi:</span>
+      <div class="cd" data-cd role="timer" aria-label="Darslar boshlanishigacha qolgan vaqt">
+        <div><b data-u="d">00</b><span>kun</span></div><i>:</i>
+        <div><b data-u="h">00</b><span>soat</span></div><i>:</i>
+        <div><b data-u="m">00</b><span>daqiqa</span></div><i>:</i>
+        <div><b data-u="s">00</b><span>soniya</span></div>
+      </div></div>
       <a class="btn fade" style="--d:1.4s" href="#yozilish">Joyimni band qilish</a>
     </div>
     <div class="cue fade" style="--d:1.8s"><i></i>PASTGA SURING</div>
@@ -777,7 +799,14 @@ h1.h1res{font-size:clamp(44px,13vw,92px)}
         <h2 class="rv" style="--d:.08s">Darslar 14-noyabrdan boshlanadi</h2>
       </div>
     </div>
-    <p class="intro rv">Haftasiga 2 marta, har bir dars 4 soat. Bir oydan keyin — natijalar taqdimoti va bitiruv bazmi.</p>
+    <p class="intro rv">Birinchi dars 14-noyabr, soat 14:00 da. Haftasiga 2 marta, har bir dars 4 soat. Bir oydan keyin — natijalar taqdimoti va bitiruv bazmi.</p>
+    <div class="cd-wrap rv"><span class="cd-t">Boshlanishiga qoldi:</span>
+      <div class="cd lt" data-cd role="timer" aria-label="Darslar boshlanishigacha qolgan vaqt">
+        <div><b data-u="d">00</b><span>kun</span></div><i>:</i>
+        <div><b data-u="h">00</b><span>soat</span></div><i>:</i>
+        <div><b data-u="m">00</b><span>daqiqa</span></div><i>:</i>
+        <div><b data-u="s">00</b><span>soniya</span></div>
+      </div></div>
     <ul class="three">
       <li class="rv" style="--d:.05s"><b>Kichik guruh</b><span>Har bir ishtirokchiga alohida e'tibor</span></li>
       <li class="rv" style="--d:.15s"><b>Oflayn</b><span>Jonli muhit, savol-javob va amaliyot</span></li>
@@ -797,7 +826,7 @@ h1.h1res{font-size:clamp(44px,13vw,92px)}
       <details class="rv"><summary>Qimmat emasmi?</summary><p>Bitta xodimning bir oylik maoshi bilan solishtiring. Kursda quradigan AI jamoangiz esa yillar davomida maoshsiz ishlaydi. Yuqoridagi kalkulyatorda o'zingiz hisoblab ko'ring. Narx va to'lov tartibini menejer aytadi.</p></details>
       <details class="rv"><summary>Natija chiqmasa-chi?</summary><p>Agar 7-darsgacha o'z AI xodimingiz ishlamasa, to'lagan pulingizning 100 foizini qaytaramiz. Savolsiz. Tavakkal butunlay bizning zimmamizda.</p></details>
       <details class="rv"><summary>Noutbuk kerakmi?</summary><p>Tizimingizni darsning o'zida qurasiz, shuning uchun noutbuk bilan kelish tavsiya etiladi. Aniq talablarni menejer aytadi.</p></details>
-      <details class="rv"><summary>Darslar qayerda va qachon bo'ladi?</summary><p>Darslar 14-noyabrdan boshlanadi, haftasiga 2 marta, oflayn, kichik guruhlarda. Manzil va dars vaqtini ariza qoldirganingizdan keyin menejer aytadi.</p></details>
+      <details class="rv"><summary>Darslar qayerda va qachon bo'ladi?</summary><p>Birinchi dars 14-noyabr, soat 14:00 da. Darslar haftasiga 2 marta, oflayn, kichik guruhlarda. Manzil va dars vaqtini ariza qoldirganingizdan keyin menejer aytadi.</p></details>
     </div>
   </div>
 </section>
@@ -807,7 +836,14 @@ h1.h1res{font-size:clamp(44px,13vw,92px)}
     <div>
       <span class="kicker rv">Ro'yxatdan o'tish</span>
       <h2 class="rv" style="--d:.08s">Kursga joyingizni band qiling</h2>
-      <p class="dates rv">14-noyabrdan · haftasiga 2 marta · oflayn</p>
+      <p class="dates rv">14-noyabr, 14:00 · haftasiga 2 marta · oflayn</p>
+      <div class="cd-wrap rv"><span class="cd-t">Joy band qilish uchun qoldi:</span>
+      <div class="cd" data-cd role="timer" aria-label="Darslar boshlanishigacha qolgan vaqt">
+        <div><b data-u="d">00</b><span>kun</span></div><i>:</i>
+        <div><b data-u="h">00</b><span>soat</span></div><i>:</i>
+        <div><b data-u="m">00</b><span>daqiqa</span></div><i>:</i>
+        <div><b data-u="s">00</b><span>soniya</span></div>
+      </div></div>
       <p class="intro rv">Guruhlar kichik. Ariza qoldiring, menejer siz bilan bog'lanib, narx, manzil va to'lov tartibini aytadi.</p>
       <div class="gift rv"><i>🎁</i><div><b>Hozir yozilganlarga sovg'a</b><span>100 ta tayyor AI prompt to'plami: sotuv, marketing, xodimlar va boshqaruv uchun</span></div></div>
     </div>
@@ -852,7 +888,7 @@ h1.h1res{font-size:clamp(44px,13vw,92px)}
 </footer>
 
 <div class="sbar" id="sbar">
-  <div><b>14-noyabrdan</b><small>Kichik guruhlar</small></div>
+  <div><b class="tm" data-cd-short>14-noyabr</b><small>darslar boshlanishiga</small></div>
   <a class="btn" href="#yozilish">Yozilish</a>
 </div>
 
@@ -1147,6 +1183,30 @@ new IntersectionObserver(([e]) => { seen.form = e.isIntersecting; sbar.classList
 // fon animatsiyalari tab ko'rinmaganda to'xtaydi
 document.addEventListener('visibilitychange', () => document.body.classList.toggle('paused', document.hidden));
 
+// ---------- teskari sanoq: 14-noyabr 14:00 (Toshkent, UTC+5) ----------
+(() => {
+  const START = new Date('2026-11-14T14:00:00+05:00').getTime();
+  const boxes = $$('[data-cd]'), short = $('[data-cd-short]');
+  const p2 = n => String(n).padStart(2, '0');
+  let t;
+  function tick() {
+    const left = Math.max(0, START - Date.now());
+    if (!left) {
+      boxes.forEach(b => { b.outerHTML = '<p class="cd-done">Darslar boshlandi! Keyingi guruhga yoziling.</p>'; });
+      if (short) short.textContent = 'Boshlandi';
+      clearInterval(t);
+      return;
+    }
+    const s = Math.floor(left / 1000), d = Math.floor(s / 86400), hh = Math.floor(s % 86400 / 3600), mm = Math.floor(s % 3600 / 60), ss = s % 60;
+    boxes.forEach(b => {
+      b.querySelector('[data-u=d]').textContent = p2(d); b.querySelector('[data-u=h]').textContent = p2(hh);
+      b.querySelector('[data-u=m]').textContent = p2(mm); b.querySelector('[data-u=s]').textContent = p2(ss);
+    });
+    if (short) short.textContent = (d ? d + ' kun ' : '') + p2(hh) + ':' + p2(mm) + ':' + p2(ss);
+  }
+  t = setInterval(tick, 1000); tick();
+})();
+
 // ---------- kalkulyator ----------
 (() => {
   const n = $('#cN'), s = $('#cS'), res = $('#cRes'), oN = $('#oN'), oS = $('#oS');
@@ -1170,7 +1230,7 @@ document.addEventListener('visibilitychange', () => document.body.classList.togg
 (() => {
   const box = $('#dMsgs'), qs = $('#dQs'), st = $('#dSt');
   const QA = [
-    ['Kurs qachon boshlanadi?', "Darslar 14-noyabrdan boshlanadi 🗓 Haftasiga 2 marta, har bir dars 4 soat. Kurs 1 oy davom etadi, jami 7 ta dars."],
+    ['Kurs qachon boshlanadi?', "Birinchi dars 14-noyabr, soat 14:00 da 🗓 Haftasiga 2 marta, har bir dars 4 soat. Kurs 1 oy davom etadi, jami 7 ta dars."],
     ['Narxi qancha?', "Narx guruh va to'lov tartibiga bog'liq. Ismingiz va raqamingizni qoldiring, menejer aniq narxni aytadi. Hozir yozilganlarga 100 ta AI prompt sovg'a 🎁"],
     ["Texnikani bilmasam ham bo'ladimi?", "Albatta! Kurs dasturchilar uchun emas, tadbirkorlar uchun. Hammasi darsning o'zida birga qilinadi, AI kurator esa 24/7 yordam beradi 🤝"],
     ['Natija chiqmasa-chi?', "Agar 7-darsgacha o'z AI xodimingiz ishlamasa, pulingizning 100% qaytariladi. Savolsiz ✅"],
