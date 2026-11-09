@@ -354,6 +354,14 @@ label{display:block;font-weight:600;font-size:16px}
 }
 
 /* ---------- yangi bloklar ---------- */
+/* hero rasmi: spiker boshi to'liq ko'rinsin */
+.hero .ph{margin-top:34px}
+.hero .ph img{object-position:46% 0;transform-origin:50% 0;
+ -webkit-mask-image:linear-gradient(transparent 0,#000 6%,#000 62%,transparent 98%);mask-image:linear-gradient(transparent 0,#000 6%,#000 62%,transparent 98%)}
+@media (min-width:860px){
+  .hero .ph{margin-top:0}
+  .hero .ph img{-webkit-mask-image:linear-gradient(90deg,transparent,#000 24%),linear-gradient(transparent,#000 5%,#000 80%,transparent);mask-image:linear-gradient(90deg,transparent,#000 24%),linear-gradient(transparent,#000 5%,#000 80%,transparent)}
+}
 /* teskari sanoq */
 .cd-wrap{margin-top:20px}
 .cd-t{display:block;font-size:12.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-l);margin-bottom:8px}
