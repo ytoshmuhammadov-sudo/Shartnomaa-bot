@@ -1283,7 +1283,11 @@ $('#lead').addEventListener('submit', async e => {
   err.textContent = '';
   const utm = Object.fromEntries([...new URLSearchParams(location.search)].filter(([k]) => k.startsWith('utm_') || k === 'manba'));
   const soha = (f.querySelector('input[name=soha]:checked') || {}).value || '';
-  const lead = { name, phone: '+998' + digits, soha, kurs: CONFIG.KURS, ...utm };
+  const lead = {
+    name, phone: '+998' + digits, source: 'Sayt',
+    note: 'Saytdan ariza: 30 kunda AI jamoa' + (soha ? ' · Soha: ' + soha : ''),
+    extra: { kurs: CONFIG.KURS, soha: soha || '—', sahifa: location.href.split('?')[0], ...utm }
+  };
   if (!CONFIG.CRM_URL) {
     console.warn('CRM ulanmagan, ariza yuborilmadi:', lead);
     f.hidden = true; $('#ok').hidden = false;
@@ -1293,7 +1297,8 @@ $('#lead').addEventListener('submit', async e => {
   const btn = $('#send'); btn.disabled = true;
   try {
     const r = await fetch(CONFIG.CRM_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(lead) });
-    if (!r.ok) throw new Error(r.status);
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || j.ok === false) throw new Error(r.status);
     f.hidden = true; $('#ok').hidden = false;
   } catch {
     err.textContent = 'Yuborilmadi. Qayta urinib ko\'ring yoki qo\'ng\'iroq qiling: +998 99 999 00 38';
