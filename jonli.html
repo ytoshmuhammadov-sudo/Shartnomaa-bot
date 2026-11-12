@@ -28,44 +28,46 @@ button,input{font:inherit}
 
 /* ---------- fon: yorug'lik, nurlar, pol ---------- */
 .bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:radial-gradient(120% 70% at 50% -10%,#0D4238 0,#052D27 42%,#031A16 100%)}
-.beam{position:absolute;top:-25vh;width:34vw;min-width:180px;height:150vh;transform-origin:50% 0;background:linear-gradient(180deg,rgba(255,236,190,.2),rgba(232,203,142,.06) 45%,transparent 75%);filter:blur(10px);mix-blend-mode:screen;animation:sweep 11s ease-in-out infinite alternate}
+.beam{position:absolute;top:-25vh;width:34vw;min-width:180px;height:150vh;transform-origin:50% 0;background:radial-gradient(50% 100% at 50% 0,rgba(255,236,190,.16),rgba(232,203,142,.05) 50%,transparent 80%);animation:sweep 11s ease-in-out infinite alternate;will-change:transform}
 .beam.b1{left:2%;--r:-22deg}
 .beam.b2{left:38%;--r:4deg;animation-duration:14s;animation-delay:-5s;opacity:.7}
 .beam.b3{right:0;--r:24deg;animation-duration:12s;animation-delay:-8s}
 @keyframes sweep{from{transform:rotate(calc(var(--r) - 9deg))}to{transform:rotate(calc(var(--r) + 9deg))}}
 .floorgrid{position:absolute;left:-50%;bottom:-2vh;width:200%;height:42vh;transform:perspective(380px) rotateX(64deg);transform-origin:50% 100%;
-  background-image:linear-gradient(rgba(232,203,142,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(232,203,142,.16) 1px,transparent 1px);background-size:64px 64px;background-position:var(--gx,0) var(--gy,0);
+  background-image:linear-gradient(rgba(232,203,142,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(232,203,142,.16) 1px,transparent 1px);background-size:64px 64px;
   -webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%)}
-.orb{position:absolute;width:60vmax;height:60vmax;border-radius:50%;filter:blur(70px);opacity:.28;animation:drift 24s ease-in-out infinite alternate}
+.orb{position:absolute;width:70vmax;height:70vmax;border-radius:50%;opacity:.3}
+.fgw{position:absolute;inset:0;overflow:hidden}
 .orb.o1{left:-25vmax;top:10vh;background:radial-gradient(closest-side,#1D6B5C,transparent)}
 .orb.o2{right:-25vmax;top:50vh;background:radial-gradient(closest-side,#7A5A22,transparent);animation-delay:-12s}
 @keyframes drift{to{transform:translate(10vmax,-8vmax) scale(1.15)}}
 #fx{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
 #links{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;overflow:visible}
-#links .glow{fill:none;stroke:url(#lg);stroke-width:7;opacity:.25;filter:blur(3px)}
+#links .glow{fill:none;stroke:url(#lg);stroke-width:6;opacity:.18}
 #links .wire{fill:none;stroke:url(#lg);stroke-width:2;stroke-dasharray:7 9;animation:flow .9s linear infinite}
-#links circle{fill:#FFF4D6;filter:drop-shadow(0 0 6px #E8CB8E)}
+#links circle{fill:#FFF4D6}
 @keyframes flow{to{stroke-dashoffset:-32}}
 .prog{position:fixed;left:0;top:0;height:3px;width:100%;z-index:30;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#80622A,#E8CB8E,#FFF3D2)}
 
 /* ---------- qahramon (spiker) ---------- */
 #actor{position:fixed;left:0;bottom:0;z-index:3;pointer-events:none;will-change:transform,opacity}
 #actor .spot{position:absolute;left:50%;bottom:0;width:320%;height:190%;transform:translateX(-50%);pointer-events:none;
-  background:conic-gradient(from 180deg at 50% 0,rgba(255,236,190,.17) 0deg,transparent 13deg,transparent 347deg,rgba(255,236,190,.17) 360deg);filter:blur(6px);mix-blend-mode:screen}
-#actor .floor{position:absolute;left:50%;bottom:-6%;width:150%;height:16%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(232,203,142,.5),rgba(232,203,142,.12) 55%,transparent);mix-blend-mode:screen}
+  background:conic-gradient(from 180deg at 50% 0,rgba(255,236,190,.17) 0deg,transparent 13deg,transparent 347deg,rgba(255,236,190,.17) 360deg);}
+#actor .floor{position:absolute;left:50%;bottom:-6%;width:150%;height:16%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(232,203,142,.45),rgba(232,203,142,.1) 55%,transparent)}
 #figs{position:absolute;inset:0;transform-origin:50% 100%}
-.fig{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);filter:drop-shadow(0 0 22px rgba(232,203,142,.22)) drop-shadow(0 18px 30px rgba(0,0,0,.55))}
+.fig{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%)}
+#figs::before{content:"";position:absolute;left:50%;top:4%;width:120%;height:80%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(232,203,142,.2),transparent)}
 .fig.stand{-webkit-mask-image:linear-gradient(to top,transparent 0,#000 26%);mask-image:linear-gradient(to top,transparent 0,#000 26%)}
 .fig.sit{height:62.5%;bottom:12%}
 .desk{position:absolute;left:50%;bottom:0;width:118%;height:13%;transform:translateX(-50%) perspective(500px) rotateX(28deg);transform-origin:50% 100%;border-radius:10px 10px 4px 4px;
   background:linear-gradient(180deg,rgba(124,242,176,.2),rgba(12,64,55,.75) 40%,rgba(3,26,22,.9));border-top:2px solid rgba(232,203,142,.85);box-shadow:0 -8px 40px rgba(232,203,142,.35),inset 0 1px 0 rgba(255,255,255,.25);overflow:hidden}
 .desk::before{content:"";position:absolute;inset:18% 12% 30%;background:repeating-linear-gradient(90deg,rgba(124,242,176,.35) 0 6%,transparent 6% 8%),repeating-linear-gradient(0deg,rgba(124,242,176,.25) 0 22%,transparent 22% 34%);opacity:.5;border-radius:4px}
-.desk::after{content:"";position:absolute;top:0;bottom:0;width:30%;background:linear-gradient(90deg,transparent,rgba(255,244,214,.4),transparent);animation:scan 3.2s ease-in-out infinite}
-@keyframes scan{from{left:-30%}to{left:100%}}
+.desk::after{content:"";position:absolute;top:0;bottom:0;left:0;width:30%;background:linear-gradient(90deg,transparent,rgba(255,244,214,.4),transparent);animation:scan 3.2s ease-in-out infinite}
+@keyframes scan{from{transform:translateX(-100%)}to{transform:translateX(340%)}}
 
 /* ---------- robot ---------- */
 #robot{position:fixed;left:0;bottom:0;z-index:5;width:var(--rw,64px);pointer-events:none;will-change:transform}
-#robot svg{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 0 10px rgba(124,242,176,.35))}
+#robot svg{display:block;width:100%;height:auto;overflow:visible}
 #robot .eye{transform-origin:50% 43px;animation:blinkEye 4s infinite}
 @keyframes blinkEye{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 #robot .tip,#robot .core{animation:pulse 1.4s ease-in-out infinite}
@@ -99,7 +101,7 @@ h2{margin-top:8px;font-weight:600;font-size:clamp(26px,7.4vw,46px)}
 .gold{background:linear-gradient(100deg,#B98F45 0%,#E8CB8E 30%,#FFF4D6 45%,#E8CB8E 60%,#B98F45 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 5s linear infinite;text-shadow:none}
 @keyframes shimmer{to{background-position:-250% 0}}
 .lst{margin-top:12px;display:grid;gap:7px}
-.lst li{display:flex;gap:10px;align-items:center;font-weight:500;font-size:15px;line-height:1.35;padding:8px 12px;border-radius:10px;background:rgba(5,45,39,.62);border:1px solid rgba(232,203,142,.18);backdrop-filter:blur(4px)}
+.lst li{display:flex;gap:10px;align-items:center;font-weight:500;font-size:15px;line-height:1.35;padding:8px 12px;border-radius:10px;background:rgba(5,45,39,.62);border:1px solid rgba(232,203,142,.18)}
 .lst li b{font:700 13px/1 var(--head);color:var(--gold-l);min-width:20px}
 .lst.two{grid-template-columns:1fr 1fr}
 .lst.two li{font-size:13.5px;padding:7px 10px}
@@ -138,11 +140,11 @@ h1 .gold{animation:up 1.1s var(--ease) forwards,shimmer 5s linear 1.4s infinite}
 .board{position:absolute;top:4%;width:56%;max-width:340px;padding:10px 12px 12px;border-radius:14px;color:#fff;
   background:linear-gradient(160deg,rgba(12,64,55,.82),rgba(3,26,22,.86));border:1px solid rgba(232,203,142,.38);
   box-shadow:inset 0 0 0 1px rgba(124,242,176,.06),0 24px 50px -22px rgba(0,0,0,.85),0 0 34px -12px rgba(232,203,142,.45);
-  backdrop-filter:blur(8px);opacity:0;transform:translateY(24px) scale(.92);transition:opacity .7s var(--ease),transform .7s var(--ease);overflow:hidden}
+  opacity:0;transform:translateY(24px) scale(.92);transition:opacity .7s var(--ease),transform .7s var(--ease);overflow:hidden}
 .board.L{left:0}.board.R{right:0}
 .board.on{opacity:1;transform:none}
-.board::after{content:"";position:absolute;left:0;right:0;height:40%;top:-40%;background:linear-gradient(180deg,transparent,rgba(124,242,176,.08),transparent);animation:bscan 3.6s linear infinite;pointer-events:none}
-@keyframes bscan{to{top:110%}}
+.board::after{content:"";position:absolute;left:0;right:0;height:40%;top:0;background:linear-gradient(180deg,transparent,rgba(124,242,176,.08),transparent);animation:bscan 3.6s linear infinite;pointer-events:none;will-change:transform}
+@keyframes bscan{from{transform:translateY(-100%)}to{transform:translateY(260%)}}
 .bh{display:flex;align-items:center;gap:5px;font:600 10.5px/1 var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--gold-l);margin-bottom:8px}
 .bh i{width:7px;height:7px;border-radius:50%;background:#E0584F}
 .bh i+i{background:#E8CB8E}.bh i+i+i{background:#7CF2B0;margin-right:4px}
@@ -256,7 +258,7 @@ form .btn{max-width:none;margin-top:0}
 .ok small{display:block;color:#BE3F3A;font-size:14px}
 .foot{position:relative;z-index:6;background:#020F0D;color:#B7C6C0;font-size:14.5px;padding:20px 16px 96px;text-align:center}
 .foot a{color:var(--gold-l);font-weight:600}
-.sbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(3,26,22,.86);backdrop-filter:blur(10px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .45s var(--ease)}
+.sbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(3,26,22,.94);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .45s var(--ease)}
 .sbar.on{transform:none}
 .sbar b{font:700 18px/1.1 var(--head);color:var(--gold-l);white-space:nowrap;font-variant-numeric:tabular-nums}
 .sbar small{display:block;font-size:11.5px;color:var(--mut)}
@@ -307,7 +309,7 @@ form .btn{max-width:none;margin-top:0}
 <div class="bg" aria-hidden="true">
   <i class="orb o1"></i><i class="orb o2"></i>
   <i class="beam b1"></i><i class="beam b2"></i><i class="beam b3"></i>
-  <i class="floorgrid" id="grid"></i>
+  <div class="fgw"><i class="floorgrid" id="grid"></i></div>
 </div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <svg id="links" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E8CB8E"/><stop offset="1" stop-color="#7CF2B0"/></linearGradient></defs><g id="linkG"></g></svg>
@@ -682,7 +684,7 @@ let vw = 0, vh = 0, D = false, KF = [], SC = [], dpr = 1, baseY = 0;
 
 function layout() {
   vw = innerWidth; vh = innerHeight; D = vw >= 900;
-  dpr = Math.min(devicePixelRatio || 1, 1.5);
+  dpr = D ? Math.min(devicePixelRatio || 1, 1.5) : 1;
   fx.width = vw * dpr; fx.height = vh * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   KF = []; SC = [];
   $$('[data-scene]').forEach(el => {
@@ -693,6 +695,7 @@ function layout() {
     if (ks[ks.length - 1][0] < .9) ks.push([1, ks[ks.length - 1][1]]); // sahna oxirigacha joyida turadi
     ks.forEach(([at, s]) => KF.push({ y: top + at * (end - top), s }));
   });
+  docH = document.documentElement.scrollHeight; lastY = -1; lastW = '';
   const last = SC[SC.length - 1];
   KF.push({ y: last.end + vh * .6, s: OFF });
   KF.sort((a, b) => a.y - b.y);
@@ -712,93 +715,97 @@ function target(y) {
 }
 
 // ---------- effektlar: chang, izlar, uchqunlar ----------
-const dust = Array.from({ length: matchMedia('(min-width:900px)').matches ? 70 : 34 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .4, s: Math.random() * .00025 + .00008, a: Math.random() * .5 + .2 }));
+const dust = Array.from({ length: matchMedia('(min-width:900px)').matches ? 40 : 18 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + .4, s: Math.random() * .00025 + .00008, a: Math.random() * .5 + .2 }));
 const prints = [], sparks = [];
 let cur = null, walkPh = 0, stepAcc = 0, foot = 1, rob = { x: 0, b: 0, s: 1 }, lastT = performance.now();
 
+let lastY = -1, docH = 0, active = null, rects = new Map(), lastW = '';
+const lbEl = $('#lb'), cueEl = $('#cue'), progEl = $('#prog'), gridEl = $('#grid');
 function frame(now) {
   const dt = Math.min(50, now - lastT); lastT = now;
-  const y = scrollY, tg = target(y);
+  const y = scrollY, scrolled = y !== lastY; lastY = y;
+  // O'QISH: doskalar o'rnini faqat sahifa surilganda o'qiymiz (yozishdan oldin)
+  if (scrolled && active) { rects.clear(); active.boards.forEach(bd => rects.set(bd, bd.getBoundingClientRect())); }
+  const tg = target(y);
   if (!cur) cur = { ...tg };
   const k = RM ? 1 : 1 - Math.pow(.86, dt / 16.7);
   const px0 = cur.x * vw;
-  for (const key in tg) cur[key] = key === 'rx' ? tg.rx : lerp(cur[key], tg[key], k);
+  let diff = 0;
+  for (const key in tg) { if (key === 'rx') { cur.rx = tg.rx; continue; } diff += Math.abs(tg[key] - cur[key]); cur[key] = lerp(cur[key], tg[key], k); }
   const H = cur.h * vh, W = H * .72, px = cur.x * vw, vx = px - px0;
   const FO = D ? 0 : 60 * clamp(cur.p, 0, 1), bot = cur.b * vh + FO; baseY = vh - bot;
   const speed = Math.abs(vx);
 
   // yurish: tebranish va izlar
   if (!RM && cur.p > .6 && speed > .25) {
-    walkPh += speed * .075;
-    stepAcc += speed;
-    if (stepAcc > H * .085) {
-      stepAcc = 0; foot = -foot;
-      prints.push({ x: px + foot * H * .03, y: vh - bot - H * .012, t: now, w: H * .028 });
-    }
-  } else walkPh *= .9;
+    walkPh += speed * .075; stepAcc += speed;
+    if (stepAcc > H * .085) { stepAcc = 0; foot = -foot; prints.push({ x: px + foot * H * .03, y: vh - bot - H * .012, t: now, w: H * .028 }); }
+  } else walkPh *= .85;
   const amp = RM ? 0 : Math.min(1, speed / 3);
-  const bob = -Math.abs(Math.sin(walkPh)) * H * .018 * amp, rot = Math.sin(walkPh) * 1.6 * amp;
-  const breath = RM ? 1 : 1 + Math.sin(now / 900) * .004;
-
-  actor.style.width = W + 'px'; actor.style.height = H + 'px';
-  actor.style.transform = `translate3d(${px - W / 2}px,${-bot}px,0)`;
-  actor.style.opacity = cur.o.toFixed(3);
-  figs.style.transform = `translateY(${bob}px) rotate(${rot}deg) scaleY(${breath})`;
   const p = clamp(cur.p, 0, 1);
-  sitI.style.opacity = clamp((.62 - p) / .24, 0, 1).toFixed(3);
-  standI.style.opacity = clamp((p - .38) / .24, 0, 1).toFixed(3);
-  standI.style.transform = `translateX(-50%) translateY(${(1 - p) * 9}%)`;
-  sitI.style.transform = `translateX(-50%) translateY(${p * -4}%)`;
-  desk.style.opacity = clamp(1 - p * 1.6, 0, 1).toFixed(3);
+  const busy = diff > .0004 || amp > .01 || Math.abs(walkPh) > .01 || scrolled;
+
+  // YOZISH: faqat nimadir o'zgarganda
+  if (busy) {
+    const bob = -Math.abs(Math.sin(walkPh)) * H * .018 * amp, rot = Math.sin(walkPh) * 1.6 * amp;
+    const wh = W.toFixed(1) + 'x' + H.toFixed(1);
+    if (wh !== lastW) { lastW = wh; actor.style.width = W + 'px'; actor.style.height = H + 'px'; }
+    actor.style.transform = `translate3d(${px - W / 2}px,${-bot}px,0)`;
+    actor.style.opacity = cur.o.toFixed(3);
+    figs.style.transform = `translateY(${bob}px) rotate(${rot}deg)`;
+    sitI.style.opacity = clamp((.62 - p) / .24, 0, 1).toFixed(3);
+    standI.style.opacity = clamp((p - .38) / .24, 0, 1).toFixed(3);
+    standI.style.transform = `translateX(-50%) translateY(${(1 - p) * 9}%)`;
+    sitI.style.transform = `translateX(-50%) translateY(${p * -4}%)`;
+    desk.style.opacity = clamp(1 - p * 1.6, 0, 1).toFixed(3);
+  }
 
   // robot: spikerning yonida, kechikib ergashadi
-  const side = cur.x > .5 ? -1 : 1;
-  let rtx = cur.rx >= 0 ? cur.rx * vw : px + side * (W * .55 + 30), rs = cur.rs;
-  const rk = RM ? 1 : 1 - Math.pow(.93, dt / 16.7);
-  const rx0 = rob.x;
+  const side = cur.x > .5 ? -1 : 1, rs = cur.rs;
   const rw = clamp(H * .16, 46, 96) * rs;
-  rtx = clamp(rtx, rw / 2 + 6, vw - rw / 2 - 6);
-  rob.x = lerp(rob.x || rtx, rtx, rk); rob.s = lerp(rob.s, rs, rk); rob.b = lerp(rob.b, cur.p > .5 ? bot : cur.b * vh + H * .12, rk);
-  const rvx = rob.x - rx0;
-  robot.style.setProperty('--rw', rw + 'px');
-  robot.style.transform = `translate3d(${rob.x - rw / 2}px,${-rob.b - 4}px,0)`;
-  if (Math.abs(rvx) > .3) robotSvg.style.transform = `scaleX(${rvx < 0 ? -1 : 1})`;
-  robot.style.opacity = cur.o.toFixed(3);
-  robot.classList.toggle('walk', Math.abs(rvx) > .3);
-  robot.classList.toggle('rt', rob.x > vw * .55);
+  const rtx = clamp(cur.rx >= 0 ? cur.rx * vw : px + side * (W * .55 + 30), rw / 2 + 6, vw - rw / 2 - 6);
+  const rbt = cur.p > .5 ? bot : cur.b * vh + H * .12;
+  const rk = RM ? 1 : 1 - Math.pow(.93, dt / 16.7), rx0 = rob.x;
+  rob.x = lerp(rob.x || rtx, rtx, rk); rob.b = lerp(rob.b, rbt, rk);
+  const rvx = rob.x - rx0, rmove = Math.abs(rvx) > .05 || Math.abs(rob.b - rbt) > .3;
+  if (rmove || busy) {
+    robot.style.setProperty('--rw', rw.toFixed(1) + 'px');
+    robot.style.transform = `translate3d(${rob.x - rw / 2}px,${-rob.b - 4}px,0)`;
+    robot.style.opacity = cur.o.toFixed(3);
+    if (Math.abs(rvx) > .3) robotSvg.style.transform = `scaleX(${rvx < 0 ? -1 : 1})`;
+    robot.classList.toggle('walk', Math.abs(rvx) > .3);
+    robot.classList.toggle('rt', rob.x > vw * .55);
+  }
   if (!RM && Math.abs(rvx) > .6 && Math.random() < .5) sparks.push({ x: rob.x + (Math.random() - .5) * rw * .4, y: vh - rob.b - 6, vx: -rvx * .15 + (Math.random() - .5) * .6, vy: -Math.random() * 1.2 - .3, t: now });
 
-  // faol sahna, doskalar va qo'ldan chiqqan nurlar
-  let active = null;
-  for (const sc of SC) {
-    const inHold = y >= sc.top - vh * .35 && y <= sc.end + vh * .25;
-    sc.el.classList.toggle('on-scene', inHold);
-    if (inHold && !active) active = sc;
-    const pr = clamp((y - sc.top) / Math.max(1, sc.end - sc.top), 0, 1);
-    if (sc.id === 'yechim') sc.boards.forEach((b, i) => b.classList.toggle('on', inHold && pr >= i / 7));
-    else sc.boards.forEach(b => b.classList.toggle('on', inHold));
-    if (sc.id === 'yol' && inHold) {
-      const i = clamp(Math.floor(pr * 7), 0, 6); setLesson(i);
-      const lb = $('#lb'), left = i % 2 === 0;
-      lb.classList.toggle('L', left); lb.classList.toggle('R', !left);
+  // sahnalar: faqat surilganda
+  if (scrolled) {
+    active = null;
+    for (const sc of SC) {
+      const inHold = y >= sc.top - vh * .35 && y <= sc.end + vh * .25;
+      if (sc.on !== inHold) { sc.on = inHold; sc.el.classList.toggle('on-scene', inHold); }
+      if (inHold && !active) active = sc;
+      if (!inHold && sc.id !== 'hero') { if (sc.lit) { sc.lit = 0; sc.boards.forEach(bd => bd.classList.remove('on')); } continue; }
+      const pr = clamp((y - sc.top) / Math.max(1, sc.end - sc.top), 0, 1);
+      if (sc.id === 'yechim') sc.boards.forEach((bd, i) => bd.classList.toggle('on', pr >= i / 7));
+      else if (!sc.lit) sc.boards.forEach(bd => bd.classList.add('on'));
+      sc.lit = 1;
+      if (sc.id === 'yol') { const i = clamp(Math.floor(pr * 7), 0, 6); setLesson(i); lbEl.classList.toggle('L', i % 2 === 0); lbEl.classList.toggle('R', i % 2 === 1); }
+      if (sc.id === 'hero') {
+        const f = clamp((pr - .18) / .4, 0, 1);
+        heroTxt.style.opacity = (1 - f).toFixed(3); heroTxt.style.transform = `translateY(${-f * 40}px)`;
+        cueEl.style.opacity = clamp(1 - pr * 4, 0, 1).toFixed(2);
+      }
+      if (sc.id === 'holat') $$('[data-to]', sc.el).forEach(n => { if (!n.dataset.done) { n.dataset.done = 1; countUp(n); } });
     }
-    if (sc.id === 'hero') {
-      const q = clamp((y - sc.top) / Math.max(1, sc.end - sc.top), 0, 1), f = clamp((q - .18) / .4, 0, 1);
-      heroTxt.style.opacity = (1 - f).toFixed(3); heroTxt.style.transform = `translateY(${-f * 40}px)`;
-      $('#cue').style.opacity = (1 - q * 4).toFixed(2);
-    }
-    if (sc.id === 'holat' && inHold) $$('[data-to]', sc.el).forEach(n => { if (!n.dataset.done) { n.dataset.done = 1; countUp(n); } });
+    const say = active && active.id === 'kurator' ? "Men — AI kuratoringizman. 24/7 yoningizdaman!" : active && active.id === 'yechim' ? "Amringizga muntazirmiz, xo'jayin!" : '';
+    if (say && bubble.textContent !== say) bubble.textContent = say;
+    bubble.classList.toggle('on', !!say);
+    sbar.classList.toggle('on', y > (SC[0] ? SC[0].end : vh) && y < docH - vh * 1.6);
+    progEl.style.transform = `scaleX(${(y / Math.max(1, docH - vh)).toFixed(4)})`;
+    gridEl.style.transform = `perspective(380px) rotateX(64deg) translateY(${(y * .35) % 64}px)`;
   }
-  const say = active && active.id === 'kurator' ? "Men — AI kuratoringizman. 24/7 yoningizdaman!" : active && active.id === 'yechim' ? 'Amringizga muntazirmiz, xo\'jayin!' : '';
-  if (say) bubble.textContent = say;
-  bubble.classList.toggle('on', !!say && cur.o > .5);
   drawLinks(active, px, H, W, p);
-
-  sbar.classList.toggle('on', y > (SC[0] ? SC[0].end : vh) && y < document.documentElement.scrollHeight - vh * 1.6);
-  $('#prog').style.transform = `scaleX(${y / Math.max(1, document.documentElement.scrollHeight - vh)})`;
-  $('#grid').style.setProperty('--gy', (y * .35) + 'px');
-  $('#grid').style.setProperty('--gx', (cur.x * 260) + 'px');
-
   drawFx(now, dt);
   requestAnimationFrame(frame);
 }
@@ -822,7 +829,8 @@ function drawLinks(sc, px, H, W, p) {
     const b = targets[i];
     if (!b || RM) { g.style.display = 'none'; return; }
     g.style.display = '';
-    const r = b.getBoundingClientRect(), bx = r.left + r.width / 2;
+    const r = rects.get(b); if (!r) { g.style.display = 'none'; return; }
+    const bx = r.left + r.width / 2;
     const h = hs.reduce((a, c) => Math.abs(c.x - bx) < Math.abs(a.x - bx) ? c : a);
     const ex = bx < h.x ? r.right - 4 : r.left + 4, ey = clamp(h.y - 20, r.top + 16, r.bottom - 16);
     const mx = (h.x + ex) / 2, my = Math.min(h.y, ey) - 40;
